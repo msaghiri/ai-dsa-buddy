@@ -6,7 +6,7 @@ import AuthRouter from "./routes/authRoutes.js";
 import cookieParser from "cookie-parser";
 const PORT = config.PORT || 3000;
 
-import mongoose from "./db/database.js";
+import GeminiRouter from "./routes/geminiRoutes.js";
 
 const app = express();
 
@@ -19,6 +19,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 app.use("/api/auth", AuthRouter);
+app.use("/api/gemini", GeminiRouter);
 
 app.listen(PORT, "localhost", () => {
 	console.log(`Server listening on port ${PORT}`);
