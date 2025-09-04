@@ -14,8 +14,6 @@ export async function authenticate(authCode) {
 		const data = await res.json();
 
 		if (!res.ok || data.success !== true) {
-			console.log(data.success === true);
-			console.log(res.ok);
 			throw new Error("Authentication Error");
 		}
 

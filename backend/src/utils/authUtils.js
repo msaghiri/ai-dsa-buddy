@@ -43,6 +43,17 @@ export function verifyToken(token) {
 	return verificationObject;
 }
 
+export function decodeToken(token) {
+	if (!verifyAuth(token)) throw new Error("Invalid token");
+
+	try {
+		const userInformation = jwt.verify(token, config.JWT_SECRET);
+		return userInformation;
+	} catch (err) {
+		throw err;
+	}
+}
+
 export async function verifyUser(code) {
 	try {
 		const { tokens } = await client.getToken(code);

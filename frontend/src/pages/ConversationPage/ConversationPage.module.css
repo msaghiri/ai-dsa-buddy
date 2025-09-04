@@ -18,6 +18,11 @@
 	height: 85%;
 	background: rgb(34, 34, 34);
 	border-radius: 40px 40px 0px 0px;
+
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	padding-top: 50px;
 }
 
 .inputField {

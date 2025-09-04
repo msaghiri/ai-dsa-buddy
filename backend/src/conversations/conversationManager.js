@@ -6,35 +6,40 @@ const ai = new GoogleGenAI({});
 
 const conversations = {};
 
-export function initiateConversation(userId, message) {
-	if (userId in conversations) {
-		return false;
+export function conversationExists(userId) {
+	!!conversations[userId];
+}
+
+export function initiateConversation(userId) {
+	if (conversationExists(userId)) return false;
+
+	try {
+		const newConversation = ai.chats.create({
+			model: config.GEMINI_MODEL,
+			history: [],
+			config: {
+				systemInstruction: "Start every conversation with the word green.", //for testing purposes
+			},
+		});
+
+		conversations[userId] = newConversation;
+	} catch (err) {
+		throw err;
 	}
-
-	const newConversation = ai.chats.create({
-		model: config.GEMINI_MODEL,
-		history: [],
-	});
-
-	conversations[userId] = newConversation;
 
 	return true;
 }
 
 export async function sendMessage(userId, message) {
-	if (!(userId in conversations)) {
-		return false;
-	}
+	if (!conversationExists(userId)) initiateConversation(userId);
 
 	const response = await conversations[userId].sendMessage({ message });
 
-	return conversations[userId].history;
+	return response.text;
 }
 
 export async function getChatHistory(userId) {
-	if (!(userId in conversations)) {
-		return false;
-	}
+	if (!conversationExists(userId)) return false;
 
 	const textHistory = [];
 
@@ -49,6 +54,11 @@ export async function getChatHistory(userId) {
 	return textHistory;
 }
 
-export async function destroyConversation(userId) {}
+export function destroyConversation(userId) {
+	if (!conversationExists(userId)) return false;
+
+	conversations[userId] = null;
+	return true;
+}
 
 console.log("Connected to Gemini");

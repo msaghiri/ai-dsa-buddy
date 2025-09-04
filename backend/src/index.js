@@ -8,6 +8,8 @@ const PORT = config.PORT || 3000;
 
 import GeminiRouter from "./routes/geminiRoutes.js";
 
+import "./db/database.js";
+
 const app = express();
 
 const corsOptions = {
