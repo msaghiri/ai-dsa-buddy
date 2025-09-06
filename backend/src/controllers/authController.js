@@ -10,7 +10,7 @@ export async function login(req, res) {
 	try {
 		const token = req.cookies.token;
 		if (isUserLoggedIn(token)) {
-			throw new Error("User already logged in");
+			return res.status(409).json({ msg: "User already logged in." });
 		}
 
 		const user = await verifyUser(req.body.code);
@@ -22,9 +22,7 @@ export async function login(req, res) {
 		return res.status(200).json({ success: true });
 	} catch (err) {
 		console.error("Login error:", err);
-		return res
-			.status(400)
-			.json({ msg: "Failed to authenticate user", error: err.message });
+		return res.status(400).json({ msg: "Failed to authenticate user" });
 	}
 }
 

@@ -15,10 +15,9 @@ export async function initConvo(req, res) {
 		const userInformation = decodeToken(token);
 		if (!userInformation) throw new Error("Failed to verify user");
 
-		initiateConversation(userInformation.userId);
-
-		if (!initiateConversation)
+		if (initiateConversation(userInformation.userId) === false) {
 			throw new Error("User already engaged in a conversation.");
+		}
 
 		return res
 			.status(200)

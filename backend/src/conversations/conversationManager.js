@@ -7,7 +7,7 @@ const ai = new GoogleGenAI({});
 const conversations = {};
 
 export function conversationExists(userId) {
-	!!conversations[userId];
+	return !!conversations[userId];
 }
 
 export function initiateConversation(userId) {
@@ -18,7 +18,7 @@ export function initiateConversation(userId) {
 			model: config.GEMINI_MODEL,
 			history: [],
 			config: {
-				systemInstruction: "Start every conversation with the word green.", //for testing purposes
+				systemInstruction: config.PROMPT,
 			},
 		});
 
@@ -57,7 +57,8 @@ export async function getChatHistory(userId) {
 export function destroyConversation(userId) {
 	if (!conversationExists(userId)) return false;
 
-	conversations[userId] = null;
+	delete conversations[userId];
+
 	return true;
 }
 

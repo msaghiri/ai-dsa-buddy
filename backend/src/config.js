@@ -10,6 +10,7 @@ const config = {
 	CLIENT_SECRET: process.env.CLIENT_SECRET,
 	JWT_SECRET: process.env.JWT_SECRET,
 	MONGOOSE_CONNECTION_URL: process.env.MONGOOSE_CONNECTION_URL,
+	PROMPT: "",
 };
 
 export default config;

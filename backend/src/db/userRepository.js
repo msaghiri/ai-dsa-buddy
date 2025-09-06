@@ -1,32 +1,19 @@
-//import mongoose from "./database.js";
 import { User } from "../models/User.js";
 
 export async function addUser(userId, displayName, email) {
-	try {
-		const userCurrentlyExists = User.exists(userId);
-
-		if (userCurrentlyExists) {
-			throw new Error("User already exists");
-		}
-
-		await User.create({
-			_id: userId,
-			displayName,
-			email,
-		});
-	} catch (err) {
-		throw err;
-	}
+	await User.updateOne(
+		{ _id: userId },
+		{ $setOnInsert: { displayName, email } },
+		{ upsert: true }
+	);
 }
 
 export async function findUserById(userId) {
-	try {
-		const findUser = await User.findById(userId);
-	} catch (err) {
-		throw err;
+	const user = await User.findById(userId);
+	if (!user) {
+		throw new Error("Failed to find user");
 	}
-
-	return findUser;
+	return user;
 }
 
 export async function removeUser() {}
