@@ -13,19 +13,15 @@ export function conversationExists(userId) {
 export function initiateConversation(userId) {
 	if (conversationExists(userId)) return false;
 
-	try {
-		const newConversation = ai.chats.create({
-			model: config.GEMINI_MODEL,
-			history: [],
-			config: {
-				systemInstruction: config.PROMPT,
-			},
-		});
+	const newConversation = ai.chats.create({
+		model: config.GEMINI_MODEL,
+		history: [],
+		config: {
+			systemInstruction: config.PROMPT,
+		},
+	});
 
-		conversations[userId] = newConversation;
-	} catch (err) {
-		throw err;
-	}
+	conversations[userId] = newConversation;
 
 	return true;
 }
@@ -39,19 +35,10 @@ export async function sendMessage(userId, message) {
 }
 
 export async function getChatHistory(userId) {
-	if (!conversationExists(userId)) return false;
-
-	const textHistory = [];
-
-	const history = conversations[userId].history;
-
-	for (const message of history) {
-		for (const part of message["parts"]) {
-			textHistory.push(part.text);
-		}
-	}
-
-	return textHistory;
+	if (!conversationExists(userId)) return [];
+	return conversations[userId].history.flatMap((msg) =>
+		msg.parts.map((p) => p.text)
+	);
 }
 
 export function destroyConversation(userId) {

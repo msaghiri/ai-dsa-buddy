@@ -25,7 +25,10 @@ export async function initConvo(req, res) {
 	} catch (err) {
 		return res
 			.status(400)
-			.json({ success: false, msg: `Failed to initiate conversation, ${err}` });
+			.json({
+				success: false,
+				msg: `Failed to initiate conversation, ${err.message}`,
+			});
 	}
 }
 
@@ -49,7 +52,7 @@ export async function send(req, res) {
 	} catch (err) {
 		return res
 			.status(400)
-			.json({ success: false, msg: `Failed to send message, ${err}` });
+			.json({ success: false, msg: `Failed to send message, ${err.message}` });
 	}
 }
 
@@ -70,7 +73,7 @@ export async function endConvo(req, res) {
 	} catch (err) {
 		return res.status(400).json({
 			success: false,
-			msg: `Failed to terminate conversation, ${err}`,
+			msg: `Failed to terminate conversation, ${err.message}`,
 		});
 	}
 }
