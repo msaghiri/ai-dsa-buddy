@@ -16,7 +16,7 @@ export async function initiateConversation() {
 
 		const data = await res.json();
 
-		if (data !== true) throw new Error("Failed to initialize conversation.");
+		if (!data.success) throw new Error("Failed to initialize conversation.");
 
 		return true;
 	} catch (err) {
@@ -51,7 +51,7 @@ export async function sendMessage(message) {
 export async function endConversation() {
 	try {
 		const res = await fetch(`${config.API_URL}/gemini/end-convo`, {
-			method: "Post",
+			method: "POST",
 			credentials: "include",
 			headers: {
 				"Content-Type": "application/json",
@@ -79,7 +79,7 @@ export function storeMessage(message) {
 }
 
 export function clearStorage() {
-	locaslStorage.removeItem("conversation");
+	localStorage.removeItem("conversation");
 }
 
 export function init() {} //might be unnecessary we'll find out soon
