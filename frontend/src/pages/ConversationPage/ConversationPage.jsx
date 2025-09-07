@@ -9,13 +9,16 @@ import {
 
 import style from "./ConversationPage.module.css";
 
-function InputField({ value, onChange }) {
+function InputField({ value, onChange, onEnter }) {
 	return (
 		<input
 			className={style.inputField}
 			type="text"
 			value={value}
 			onChange={(e) => onChange(e.target.value)}
+			onKeyDown={(e) => {
+				if (e.key === "Enter" && value.trim()) onEnter();
+			}}
 		/>
 	);
 }
@@ -61,16 +64,20 @@ function ConversationPage() {
 						/>
 					))}
 				</div>
-				<InputField
-					value={currentMessageInput}
-					onChange={setCurrentMessageInput}
-				/>
-				<input
-					type="button"
-					value="Send"
-					onClick={handleSendMessage}
-					disabled={!currentMessageInput.trim()}
-				/>
+				<div className={style.sendMessageArea}>
+					<InputField
+						value={currentMessageInput}
+						onChange={setCurrentMessageInput}
+						onEnter={handleSendMessage}
+					/>
+					<input
+						className={style.sendButton}
+						type="button"
+						value="↑"
+						onClick={handleSendMessage}
+						disabled={!currentMessageInput.trim()}
+					/>
+				</div>
 			</div>
 		</div>
 	);

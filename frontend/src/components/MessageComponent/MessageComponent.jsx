@@ -9,10 +9,14 @@ function MessageComponent(props) {
 		roleName = "Model";
 	}
 
+	const roleClass = props.role === "user" ? `${style.user}` : `${style.model}`;
+	const classes = `${style.messageContainer} ${roleClass}`;
+
 	return (
-		<div className={style.messageContainer}>
-			<h3 className={style.roleTitle}>{roleName}</h3>
-			<p className={style.message}>{props.message}</p>
+		<div className={classes}>
+			<div className={style.messageTextContainer}>
+				<p className={style.message}>{props.message}</p>
+			</div>
 		</div>
 	);
 }
