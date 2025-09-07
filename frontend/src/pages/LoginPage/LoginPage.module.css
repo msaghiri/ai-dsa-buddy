@@ -1,11 +1,13 @@
 .loginPageContainer {
 	height: 100vh;
-	background: rgb(59, 59, 59);
+	background: transparent;
 
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+
+	gap: 20px;
 
 	font-size: 20px;
 }

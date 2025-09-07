@@ -1,6 +1,7 @@
 import { useGoogleLogin } from "@react-oauth/google";
 import { authenticate } from "../../services/authService.js";
 import { useNavigate } from "react-router-dom";
+import logo from "../../assets/g-logo.png";
 import style from "./GoogleLoginButton.module.css";
 
 function GoogleLoginButton() {
@@ -20,7 +21,7 @@ function GoogleLoginButton() {
 
 	return (
 		<button className={style.button} onClick={handleGoogleLogin}>
-			Log in with Google
+			<img src={logo} className={style.googleIcon} /> Sign in with Google
 		</button>
 	);
 }
