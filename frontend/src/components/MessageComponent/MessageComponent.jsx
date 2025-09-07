@@ -1,16 +1,18 @@
+import { useState } from "react";
+import { useEffect } from "react";
 import style from "./MessageComponent.module.css";
 
 function MessageComponent(props) {
-	let roleName;
+	const [visible, setVisible] = useState(false);
 
-	if (props.role === "user") {
-		roleName = "User";
-	} else {
-		roleName = "Model";
-	}
+	useEffect(() => {
+		setVisible(true);
+	}, []);
 
 	const roleClass = props.role === "user" ? `${style.user}` : `${style.model}`;
-	const classes = `${style.messageContainer} ${roleClass}`;
+	const classes = `${style.messageContainer} ${roleClass} ${
+		visible ? style.visible : ""
+	}`;
 
 	return (
 		<div className={classes}>

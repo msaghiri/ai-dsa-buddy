@@ -19,6 +19,15 @@
 	word-break: break-word;
 	overflow-wrap: break-word;
 	hyphens: auto;
+
+	opacity: 0;
+	transform: translateY(10px);
+	transition: all 0.3 ease;
+}
+
+.visible {
+	opacity: 1;
+	transform: translateY(0);
 }
 
 .messageTextContainer {

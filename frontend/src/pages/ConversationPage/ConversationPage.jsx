@@ -1,5 +1,5 @@
 import MessageComponent from "../../components/MessageComponent/MessageComponent.jsx";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import {
 	storeMessage,
@@ -24,6 +24,8 @@ function InputField({ value, onChange, onEnter }) {
 }
 
 function ConversationPage() {
+	const endOfMessages = useRef(null);
+
 	const [currentMessageInput, setCurrentMessageInput] = useState("");
 
 	const [messageHistory, setMessageHistory] = useState(() => {
@@ -35,21 +37,39 @@ function ConversationPage() {
 		initiateConversation().catch(console.error);
 	}, []);
 
+	useEffect(() => {
+		scrollToBottom();
+	}, [messageHistory]);
+
 	const handleSendMessage = async () => {
 		try {
-			const response = await sendMessage(currentMessageInput);
+			const messageToSend = currentMessageInput;
 
-			const userMessage = { role: "user", msg: currentMessageInput };
-			const responseMessage = { role: "model", msg: response };
-
+			const userMessage = { role: "user", msg: messageToSend };
 			storeMessage(userMessage);
-			storeMessage(responseMessage);
-			setMessageHistory((prev) => [...prev, userMessage, responseMessage]);
-
+			setMessageHistory((prev) => [...prev, userMessage]);
 			setCurrentMessageInput("");
+
+			const response = await sendMessage(messageToSend);
+			if (!response) throw new Error("No response");
+			if (response === false) throw new Error("No response");
+
+			const responseMessage = { role: "model", msg: response };
+			storeMessage(responseMessage);
+			setMessageHistory((prev) => [...prev, responseMessage]);
 		} catch (err) {
 			console.error(err);
+			const errorMessage = {
+				role: "model",
+				msg: "Error occured, could not contact AI",
+			};
+			storeMessage(errorMessage);
+			setMessageHistory((prev) => [...prev, errorMessage]);
 		}
+	};
+
+	const scrollToBottom = () => {
+		endOfMessages.current?.scrollIntoView({ behavior: "smooth" });
 	};
 
 	return (
@@ -63,6 +83,8 @@ function ConversationPage() {
 							message={message.msg}
 						/>
 					))}
+
+					<div ref={endOfMessages} />
 				</div>
 				<div className={style.sendMessageArea}>
 					<InputField
