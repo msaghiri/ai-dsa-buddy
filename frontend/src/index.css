@@ -12,5 +12,10 @@
 	align-items: center;
 
 	background: radial-gradient(circle at 0% 0%, #ffffff31 0%, transparent 65%),
+		radial-gradient(
+			circle at 100% 100%,
+			rgba(255, 0, 0, 0.123) 0%,
+			transparent 50%
+		),
 		#141414;
 }

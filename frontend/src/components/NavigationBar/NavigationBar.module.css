@@ -12,6 +12,8 @@
 	border-radius: 40px 0px 40px 40px;
 
 	align-items: center;
+
+	position: fixed;
 }
 
 .logo {

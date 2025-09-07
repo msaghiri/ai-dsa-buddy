@@ -1,4 +1,4 @@
-import MessageComponent from "../../components/MessageComponent/MessageComponent.jsx";
+import MessageComponent from "../MessageComponent/MessageComponent.jsx";
 import { useState, useEffect, useRef } from "react";
 
 import {
@@ -7,7 +7,7 @@ import {
 	initiateConversation,
 } from "../../services/geminiService.js";
 
-import style from "./ConversationPage.module.css";
+import style from "./ConversationComponent.module.css";
 
 function InputField({ value, onChange, onEnter }) {
 	return (
@@ -23,7 +23,7 @@ function InputField({ value, onChange, onEnter }) {
 	);
 }
 
-function ConversationPage() {
+function ConversationComponent() {
 	const endOfMessages = useRef(null);
 
 	const [currentMessageInput, setCurrentMessageInput] = useState("");
@@ -105,4 +105,4 @@ function ConversationPage() {
 	);
 }
 
-export default ConversationPage;
+export default ConversationComponent;

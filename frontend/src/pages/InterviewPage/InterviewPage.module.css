@@ -1,0 +1,42 @@
+.interviewPageContainer {
+	width: 100%;
+	height: 100vh;
+	display: flex;
+
+	gap: 50px;
+
+	align-items: center;
+	justify-content: center;
+}
+
+.codeEditorTextArea {
+	outline: none;
+	border: none;
+}
+
+.contentBorder {
+	display: flex;
+	gap: 40px;
+	width: 1200px;
+	min-width: 800px;
+
+	border-bottom: solid;
+	border-top: solid;
+	border-width: 2px;
+	padding: 10px;
+	border-color: rgba(76, 66, 165, 0.281);
+	border-radius: 40px;
+}
+
+.editorBackground {
+	width: 800px;
+	background: radial-gradient(circle at 0% 0%, #e07bff0a 0%, transparent 60%),
+		radial-gradient(circle at 70% 40%, #5d83ff15 0%, transparent 50%),
+		radial-gradient(circle at 50% 100%, #ff00000e 0%, transparent 50%),
+		rgba(0, 0, 0, 0.267);
+	border-radius: 40px;
+
+	border: solid;
+	border-width: 1px;
+	border-color: rgba(255, 255, 255, 0.295);
+}

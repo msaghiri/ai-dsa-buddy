@@ -12,7 +12,7 @@ function NavigationBar() {
 					</Link>
 				</li>
 				<li className={style.navigationItem}>
-					<Link className={style.navigationItemText} to="/conversation">
+					<Link className={style.navigationItemText} to="/interview">
 						Chat
 					</Link>
 				</li>

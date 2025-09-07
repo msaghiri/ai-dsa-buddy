@@ -1,6 +1,6 @@
 import ProtectedRoutes from "./pages/ProtectedRoutes";
 import LoginPage from "./pages/LoginPage/LoginPage.jsx";
-import ConversationPage from "./pages/ConversationPage/ConversationPage.jsx";
+import InterviewPage from "./pages/InterviewPage/InterviewPage.jsx";
 
 import NavigationBar from "./components/NavigationBar/NavigationBar.jsx";
 
@@ -14,9 +14,9 @@ export function App() {
 			<NavigationBar />
 			<Routes>
 				<Route path="login" element={<LoginPage />} />
-				<Route path="conversation" element={<ConversationPage />} />
+				<Route path="interview" element={<InterviewPage />} />
 				<Route element={<ProtectedRoutes />}>
-					<Route path="/" element={<Navigate to="/conversation" />} />
+					<Route path="/" element={<Navigate to="/interview" />} />
 				</Route>
 			</Routes>
 		</div>
