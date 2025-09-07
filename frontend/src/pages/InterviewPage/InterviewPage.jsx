@@ -35,7 +35,13 @@ function InterviewPage() {
 					textareaClassName={style.codeEditorTextArea}
 				/>
 			</div>
-			<ConversationComponent className={style.conversationComponent} />
+			<div className={style.rightHandSide}>
+				<ConversationComponent className={style.conversationComponent} />
+				<div className={style.actionButtonContainer}>
+					<button className={style.actionButton}>Review Code</button>
+					<button className={style.actionButton}>Run tests</button>
+				</div>
+			</div>
 		</div>
 	);
 }

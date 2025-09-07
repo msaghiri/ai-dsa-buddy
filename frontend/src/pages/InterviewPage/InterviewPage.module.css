@@ -39,3 +39,41 @@
 	padding-left: 20px;
 	padding-right: 5px;
 }
+
+.rightHandSide {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	height: 700px;
+	gap: 20px;
+}
+
+.actionButtonContainer {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	gap: 50px;
+	height: 100%;
+}
+
+.actionButton {
+	width: 180px;
+	height: 45px;
+	background: rgba(104, 197, 240, 0.08);
+	border: 1px solid rgba(255, 255, 255, 0.15);
+	color: white;
+	border-radius: 25px;
+	font-size: 13px;
+	font-weight: 500;
+	cursor: pointer;
+	transform: scale(1);
+	will-change: transform;
+	transition: all 0.5s ease;
+}
+
+.actionButton:hover {
+	background-color: rgba(160, 200, 238, 0.178);
+	translate: 0px -3px;
+	transform: scale(1.02);
+}
