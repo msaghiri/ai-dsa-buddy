@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 
 import ConversationComponent from "../../components/ConversationComponent/ConversationComponent.jsx";
 import Editor from "react-simple-code-editor";
@@ -14,6 +14,8 @@ function InterviewPage() {
 		(code) => Prism.highlight(code, Prism.languages.python, "python"),
 		[]
 	);
+
+	const conversationRef = useRef(null);
 
 	return (
 		<div className={style.interviewPageContainer}>
@@ -36,9 +38,17 @@ function InterviewPage() {
 				/>
 			</div>
 			<div className={style.rightHandSide}>
-				<ConversationComponent className={style.conversationComponent} />
+				<ConversationComponent
+					className={style.conversationComponent}
+					ref={conversationRef}
+				/>
 				<div className={style.actionButtonContainer}>
-					<button className={style.actionButton}>Review Code</button>
+					<button
+						className={style.actionButton}
+						onClick={() => conversationRef.current?.handleSendCodeToModel(code)}
+					>
+						Review Code
+					</button>
 					<button className={style.actionButton}>Run tests</button>
 				</div>
 			</div>

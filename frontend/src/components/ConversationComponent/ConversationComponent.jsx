@@ -1,11 +1,19 @@
 import MessageComponent from "../MessageComponent/MessageComponent.jsx";
-import { useState, useEffect, useRef } from "react";
+import {
+	useState,
+	useEffect,
+	useRef,
+	useImperativeHandle,
+	forwardRef,
+} from "react";
 
 import {
 	storeMessage,
 	sendMessage,
 	initiateConversation,
 } from "../../services/geminiService.js";
+
+import { sendCodeToModel } from "../../services/codeService.js";
 
 import style from "./ConversationComponent.module.css";
 
@@ -23,7 +31,7 @@ function InputField({ value, onChange, onEnter }) {
 	);
 }
 
-function ConversationComponent() {
+const ConversationComponent = forwardRef((props, ref) => {
 	const endOfMessages = useRef(null);
 
 	const [currentMessageInput, setCurrentMessageInput] = useState("");
@@ -44,7 +52,7 @@ function ConversationComponent() {
 	const handleSendMessage = async () => {
 		try {
 			const messageToSend = currentMessageInput;
-
+			if (!messageToSend.trim()) throw new Error("No Message");
 			const userMessage = { role: "user", msg: messageToSend };
 			storeMessage(userMessage);
 			setMessageHistory((prev) => [...prev, userMessage]);
@@ -68,9 +76,30 @@ function ConversationComponent() {
 		}
 	};
 
+	const handleSendCodeToModel = async (code) => {
+		try {
+			if (!code.trim()) throw new Error("No code");
+			const response = await sendCodeToModel(code);
+			if (!response) throw new Error("No response");
+			if (response === false) throw new Error("No response");
+
+			const responseMessage = { role: "model", msg: response };
+			storeMessage(responseMessage);
+			setMessageHistory((prev) => [...prev, responseMessage]);
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
 	const scrollToBottom = () => {
 		endOfMessages.current?.scrollIntoView({ behavior: "smooth" });
 	};
+
+	useImperativeHandle(ref, () => {
+		return {
+			handleSendCodeToModel,
+		};
+	});
 
 	return (
 		<div className={style.conversationPageContainer}>
@@ -103,6 +132,6 @@ function ConversationComponent() {
 			</div>
 		</div>
 	);
-}
+});
 
 export default ConversationComponent;
