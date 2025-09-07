@@ -2,13 +2,15 @@
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
-
-	background-color: rgb(43, 43, 43);
 	color: white;
 }
 
 .app {
+	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+
+	background: radial-gradient(circle at 0% 0%, #ffffff31 0%, transparent 65%),
+		#141414;
 }
