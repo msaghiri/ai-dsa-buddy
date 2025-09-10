@@ -19,4 +19,38 @@ export async function sendCodeToModel(req, res) {
 	}
 }
 
-export async function testCode(req, res) {} //not a priority right now, TODO feature
+export async function testCode(req, res) {
+	//const solutionFunction = req.body.code;
+
+	const solutionFunction = `
+def solution():
+	print("Hello world!")`;
+
+	const test = `
+${solutionFunction}
+solution()`;
+
+	const bodyObject = {
+		language: "python",
+		version: "3.10.0",
+		files: [
+			{
+				content: test.trim(),
+			},
+		],
+	};
+
+	const result = await fetch("https://emkc.org/api/v2/piston/execute", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(bodyObject),
+	});
+
+	const data = await result.json();
+	console.log(test.trim());
+	console.log(data);
+}
+
+await testCode(1, 1);
