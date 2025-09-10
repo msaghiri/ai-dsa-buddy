@@ -1,4 +1,4 @@
-import { send } from "./conversationController.js";
+import { send } from "./interviewController.js";
 
 export async function sendCodeToModel(req, res) {
 	const code = req.body.code;

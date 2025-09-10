@@ -1,4 +1,3 @@
-// hooks/useConversation.js
 import { useState, useRef, useEffect, useCallback } from "react";
 import {
 	storeMessage,
@@ -7,7 +6,6 @@ import {
 } from "../services/geminiService.js";
 import { sendCodeToModel } from "../services/codeService.js";
 
-// Simple abstraction to add a message
 const addMessage = (setMessages, message) => {
 	storeMessage(message);
 	setMessages((prev) => [...prev, message]);
@@ -36,12 +34,10 @@ export default function useConversation() {
 		const trimmed = input.trim();
 		if (!trimmed) return;
 
-		// Add user message
 		const userMessage = { role: "user", msg: trimmed };
 		addMessage(setMessages, userMessage);
 		setInput("");
 
-		// Send to model and add response
 		try {
 			setIsLoading(true);
 
@@ -67,16 +63,12 @@ export default function useConversation() {
 		if (!code.trim()) return;
 
 		try {
-			setIsLoading(true);
-
 			const response = await sendCodeToModel(code);
-			setIsLoading(false);
 			if (response) {
 				const modelMessage = { role: "model", msg: response };
 				addMessage(setMessages, modelMessage);
 			}
 		} catch (err) {
-			setIsLoading(false);
 			console.error(err);
 		}
 	}, []);

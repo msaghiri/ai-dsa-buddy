@@ -1,16 +1,15 @@
 import { Router } from "express";
 
 import {
-	initConvo,
+	initInterview,
 	send,
-	getHistory,
-	endConvo,
-} from "../controllers/conversationController.js";
+	endInterview,
+} from "../controllers/interviewController.js";
 
 const router = Router();
 
 router.post("/init-convo", (req, res) => {
-	initConvo(req, res);
+	initInterview(req, res);
 });
 
 router.post("/send-message", (req, res) => {
@@ -18,12 +17,10 @@ router.post("/send-message", (req, res) => {
 });
 
 router.post("/end-convo", (req, res) => {
-	endConvo(req, res);
+	endInterview(req, res);
 });
 
 //Unimportant for now
-router.post("/chat-history", (req, res) => {
-	getHistory(req, res);
-});
+router.post("/chat-history", (req, res) => {});
 
 export default router;
