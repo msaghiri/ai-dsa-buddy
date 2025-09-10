@@ -19,6 +19,8 @@ export default function useConversation() {
 		return stored ? JSON.parse(stored) : [];
 	});
 
+	const [isLoading, setIsLoading] = useState(false);
+
 	const [input, setInput] = useState("");
 	const endRef = useRef(null);
 
@@ -41,10 +43,17 @@ export default function useConversation() {
 
 		// Send to model and add response
 		try {
+			setIsLoading(true);
+
 			const response = await sendMessage(trimmed);
 			const modelMessage = { role: "model", msg: response || "No response" };
+
+			setIsLoading(false);
+
 			addMessage(setMessages, modelMessage);
 		} catch (err) {
+			setIsLoading(false);
+
 			console.error(err);
 			const errorMessage = {
 				role: "model",
@@ -58,12 +67,16 @@ export default function useConversation() {
 		if (!code.trim()) return;
 
 		try {
+			setIsLoading(true);
+
 			const response = await sendCodeToModel(code);
+			setIsLoading(false);
 			if (response) {
 				const modelMessage = { role: "model", msg: response };
 				addMessage(setMessages, modelMessage);
 			}
 		} catch (err) {
+			setIsLoading(false);
 			console.error(err);
 		}
 	}, []);
@@ -75,5 +88,7 @@ export default function useConversation() {
 		sendMessageHandler,
 		sendCodeHandler,
 		endRef,
+		isLoading,
+		setIsLoading,
 	};
 }

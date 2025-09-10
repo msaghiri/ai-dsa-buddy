@@ -2,6 +2,8 @@ import React, { forwardRef } from "react";
 import MessageComponent from "../MessageComponent/MessageComponent.jsx";
 import useConversation from "../../hooks/useConversation.js";
 import style from "./ConversationComponent.module.css";
+import { dotPulse } from "ldrs";
+dotPulse.register();
 
 function InputField({ value, onChange, onEnter }) {
 	return (
@@ -25,6 +27,8 @@ const ConversationComponent = forwardRef((props, ref) => {
 		sendMessageHandler,
 		sendCodeHandler,
 		endRef,
+		isLoading,
+		setIsLoading,
 	} = useConversation();
 
 	React.useImperativeHandle(ref, () => ({
@@ -43,6 +47,14 @@ const ConversationComponent = forwardRef((props, ref) => {
 						/>
 					))}
 
+					{isLoading && (
+						<l-dot-pulse
+							size="43"
+							speed="1.2"
+							color="white"
+							className={style.loadingSpinner}
+						></l-dot-pulse>
+					)}
 					<div ref={endRef} />
 				</div>
 				<div className={style.sendMessageArea}>

@@ -102,3 +102,7 @@
 	translate: 0px 1px;
 	scale: 0.95;
 }
+
+.loadingSpinner {
+	margin-left: 20px;
+}
