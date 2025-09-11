@@ -14,7 +14,7 @@ export async function authenticate(authCode) {
 
 		const data = await res.json();
 
-		if (!res.ok || data.success !== true) {
+		if (!data.success) {
 			throw new Error("Authentication Error");
 		}
 
@@ -35,7 +35,7 @@ export async function logout() {
 
 		const data = await res.json();
 
-		if (data.success !== true || !res.ok) {
+		if (!data.success) {
 			throw new Error("Failed to Log out");
 		}
 
@@ -56,7 +56,7 @@ export async function verifyAuth() {
 
 		const data = await authStatus.json();
 
-		return data;
+		return data.success;
 	} catch (err) {
 		return false;
 	}

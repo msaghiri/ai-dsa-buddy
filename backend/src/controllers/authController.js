@@ -2,15 +2,24 @@ import {
 	verifyUser,
 	isUserLoggedIn,
 	createAuthenticationCookie,
+	verifyAuth,
 } from "../utils/authUtils.js";
 import { addUser } from "../db/userRepository.js";
 import { User } from "../models/User.js";
+
+const createResponseObject = (success, data, error) => ({
+	success,
+	data,
+	error,
+});
 
 export async function login(req, res) {
 	try {
 		const token = req.cookies.token;
 		if (isUserLoggedIn(token)) {
-			return res.status(409).json({ msg: "User already logged in." });
+			return res
+				.status(409)
+				.json(createResponseObject(false, null, "User already logged in. "));
 		}
 
 		const user = await verifyUser(req.body.code);
@@ -19,19 +28,41 @@ export async function login(req, res) {
 		const userExists = await User.exists({ _id: user.userId });
 		if (!userExists) await addUser(user.userId, user.email, user.email);
 
-		return res.status(200).json({ success: true });
+		return res.status(200).json(createResponseObject(true, null, null));
 	} catch (err) {
 		console.error("Login error:", err);
-		return res.status(400).json({ msg: "Failed to authenticate user" });
+		return res
+			.status(200)
+			.json(createResponseObject(false, null, "Failed to authenticate user."));
 	}
 }
 
 export function logout(req, res) {
-	if (!req.cookies.token) return res.status(400).send({ msg: "Not logged in" });
-
+	if (!req.cookies.token) {
+		return res
+			.status(400)
+			.json(createResponseObject(false, null, "Not logged in.")); //return res.status(400).send({ msg: "Not logged in" });
+	}
 	res.clearCookie("token");
+
+	//return res
+	//	.status(200)
+	//	.send({ success: true, msg: "Successfully logged out" });
 
 	return res
 		.status(200)
-		.send({ success: true, msg: "Successfully logged out" });
+		.json(createResponseObject(true, null, "Successfully logged out."));
+}
+
+export function getStatus(req, res) {
+	const token = req.cookies.token;
+	const status = verifyAuth(token);
+
+	if (!status) {
+		return res
+			.status(400)
+			.json(createResponseObject(false, null, "Not logged in."));
+	}
+
+	return res.status(200).json(createResponseObject(true, null, null));
 }
