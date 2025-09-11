@@ -1,6 +1,9 @@
 import { verifyAuth } from "./authService.js";
 import config from "../config.mjs";
 
+const JSON_HEADERS = { "Content-Type": "application/json" };
+const createMessagePayload = (message) => ({ message });
+
 export async function initiateConversation() {
 	const isAuthenticated = await verifyAuth();
 	if (!isAuthenticated) return false;
@@ -9,9 +12,7 @@ export async function initiateConversation() {
 		const res = await fetch(`${config.API_URL}/gemini/init-convo`, {
 			method: "POST",
 			credentials: "include",
-			headers: {
-				"Content-Type": "application/json",
-			},
+			headers: JSON_HEADERS,
 		});
 
 		const data = await res.json();
@@ -28,11 +29,9 @@ export async function sendMessage(message) {
 	try {
 		const res = await fetch(`${config.API_URL}/gemini/send-message`, {
 			method: "POST",
-			body: JSON.stringify({ message }),
+			body: JSON.stringify(createMessagePayload(message)),
 			credentials: "include",
-			headers: {
-				"Content-Type": "application/json",
-			},
+			headers: JSON_HEADERS,
 		});
 
 		const data = await res.json();
@@ -53,9 +52,7 @@ export async function endConversation() {
 		const res = await fetch(`${config.API_URL}/gemini/end-convo`, {
 			method: "POST",
 			credentials: "include",
-			headers: {
-				"Content-Type": "application/json",
-			},
+			headers: JSON_HEADERS,
 		});
 
 		const data = await res.json();

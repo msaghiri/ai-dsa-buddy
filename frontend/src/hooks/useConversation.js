@@ -6,10 +6,13 @@ import {
 } from "../services/geminiService.js";
 import { sendCodeToModel } from "../services/codeService.js";
 
+//Add message is for frontend only
 const addMessage = (setMessages, message) => {
 	storeMessage(message);
 	setMessages((prev) => [...prev, message]);
 };
+
+const createMessage = (role, msg) => ({ role, msg });
 
 export default function useConversation() {
 	const [messages, setMessages] = useState(() => {
@@ -34,7 +37,7 @@ export default function useConversation() {
 		const trimmed = input.trim();
 		if (!trimmed) return;
 
-		const userMessage = { role: "user", msg: trimmed };
+		const userMessage = createMessage("user", trimmed);
 		addMessage(setMessages, userMessage);
 		setInput("");
 
@@ -42,7 +45,7 @@ export default function useConversation() {
 			setIsLoading(true);
 
 			const response = await sendMessage(trimmed);
-			const modelMessage = { role: "model", msg: response || "No response" };
+			const modelMessage = createMessage("model", response || "No response.");
 
 			setIsLoading(false);
 
@@ -51,10 +54,11 @@ export default function useConversation() {
 			setIsLoading(false);
 
 			console.error(err);
-			const errorMessage = {
-				role: "model",
-				msg: "Error occurred, could not contact AI",
-			};
+
+			const errorMessage = createMessage(
+				"model",
+				"Error occurred. Could not contact AI."
+			);
 			addMessage(setMessages, errorMessage);
 		}
 	}, [input]);
@@ -65,7 +69,7 @@ export default function useConversation() {
 		try {
 			const response = await sendCodeToModel(code);
 			if (response) {
-				const modelMessage = { role: "model", msg: response };
+				const modelMessage = createMessage("model", response);
 				addMessage(setMessages, modelMessage);
 			}
 		} catch (err) {

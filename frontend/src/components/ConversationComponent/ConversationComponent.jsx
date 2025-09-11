@@ -28,7 +28,6 @@ const ConversationComponent = forwardRef((props, ref) => {
 		sendCodeHandler,
 		endRef,
 		isLoading,
-		setIsLoading,
 	} = useConversation();
 
 	React.useImperativeHandle(ref, () => ({

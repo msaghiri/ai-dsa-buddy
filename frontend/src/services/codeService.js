@@ -1,14 +1,15 @@
 import config from "../config.mjs";
 
+const JSON_HEADERS = { "Content-Type": "application/json" };
+const createCodePayload = (code) => ({ code });
+
 export async function sendCodeToModel(code) {
 	try {
 		const res = await fetch(`${config.API_URL}/code/send-code-to-model`, {
 			method: "POST",
-			body: JSON.stringify({ code }),
+			body: JSON.stringify(createCodePayload(code)),
 			credentials: "include",
-			headers: {
-				"Content-Type": "application/json",
-			},
+			headers: JSON_HEADERS,
 		});
 
 		const data = await res.json();

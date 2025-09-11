@@ -1,14 +1,15 @@
 import config from "../config.mjs";
 
+const JSON_HEADERS = { "Content-Type": "application/json" };
+const createAuthPayload = (code) => ({ code });
+
 export async function authenticate(authCode) {
 	try {
 		const res = await fetch(`${config.API_URL}/auth/login`, {
 			method: "POST",
 			credentials: "include",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({ code: authCode }),
+			headers: JSON_HEADERS,
+			body: JSON.stringify(createAuthPayload(authCode)),
 		});
 
 		const data = await res.json();
@@ -29,9 +30,7 @@ export async function logout() {
 		const res = await fetch(`${config.API_URL}/auth/logout`, {
 			method: "POST",
 			credentials: "include",
-			headers: {
-				"Content-Type": "application/json",
-			},
+			headers: JSON_HEADERS,
 		});
 
 		const data = await res.json();
@@ -52,9 +51,7 @@ export async function verifyAuth() {
 		const authStatus = await fetch(`${config.API_URL}/auth/status`, {
 			method: "GET",
 			credentials: "include",
-			headers: {
-				"Content-Type": "application/json",
-			},
+			headers: JSON_HEADERS,
 		});
 
 		const data = await authStatus.json();
