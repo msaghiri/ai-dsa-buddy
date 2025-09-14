@@ -31,7 +31,7 @@ export default function useConversation() {
 
 	useEffect(() => {
 		endRef.current?.scrollIntoView({ behavior: "smooth" });
-	}, [messages]);
+	}, [messages, isLoading]);
 
 	const sendMessageHandler = useCallback(async () => {
 		const trimmed = input.trim();
@@ -66,14 +66,27 @@ export default function useConversation() {
 	const sendCodeHandler = useCallback(async (code) => {
 		if (!code.trim()) return;
 
+		setIsLoading(true);
+
 		try {
 			const response = await sendCodeToModel(code);
 			if (response) {
 				const modelMessage = createMessage("model", response);
 				addMessage(setMessages, modelMessage);
+			} else {
+				throw new Error("Example error");
 			}
 		} catch (err) {
+			setIsLoading(false);
 			console.error(err);
+
+			const errorMessage = createMessage(
+				"model",
+				"Error occurred. Could not contact AI."
+			);
+			addMessage(setMessages, errorMessage);
+		} finally {
+			setIsLoading(false);
 		}
 	}, []);
 
