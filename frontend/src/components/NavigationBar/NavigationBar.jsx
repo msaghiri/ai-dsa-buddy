@@ -8,7 +8,7 @@ function NavigationBar() {
 			<ul className={style.navigationList}>
 				<li className={style.navigationItem}>
 					<Link className={style.navigationItemText} to="/login">
-						Sign in
+						Profile
 					</Link>
 				</li>
 				<li className={style.navigationItem}>

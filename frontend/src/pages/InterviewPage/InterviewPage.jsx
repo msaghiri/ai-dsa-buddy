@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 
 import ConversationComponent from "../../components/ConversationComponent/ConversationComponent.jsx";
 import Editor from "react-simple-code-editor";
@@ -6,8 +6,13 @@ import Prism from "prismjs";
 import "prismjs/components/prism-python";
 import "prismjs/themes/prism-okaidia.css";
 import style from "./InterviewPage.module.css";
+import { initiateConversation } from "../../services/geminiService.js";
 
 function InterviewPage() {
+	useEffect(() => {
+		initiateConversation().catch(console.error);
+	}, []);
+
 	const [code, setCode] = useState("");
 
 	const highlightCode = useCallback(

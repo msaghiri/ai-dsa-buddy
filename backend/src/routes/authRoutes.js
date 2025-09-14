@@ -15,10 +15,18 @@ router.get("/status", (req, res) => {
 	const status = verifyAuth(token);
 
 	if (!status) {
-		return res.status(400).send(status);
+		return res.status(400).json({
+			success: false,
+			msg: null,
+			error: "Failed to authenticate",
+		});
 	}
 
-	return res.status(200).send(status);
+	return res.status(200).json({
+		success: true,
+		msg: "Authenticated successfully",
+		error: null,
+	});
 });
 
 export default router;

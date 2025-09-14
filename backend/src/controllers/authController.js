@@ -3,9 +3,11 @@ import {
 	isUserLoggedIn,
 	createAuthenticationCookie,
 	verifyAuth,
+	decodeToken,
 } from "../utils/authUtils.js";
 import { addUser } from "../db/userRepository.js";
 import { User } from "../models/User.js";
+import { destroyInterviewSession } from "../interviews/interviewManager.js";
 
 const createResponseObject = (success, data, error) => ({
 	success,
@@ -41,13 +43,12 @@ export function logout(req, res) {
 	if (!req.cookies.token) {
 		return res
 			.status(400)
-			.json(createResponseObject(false, null, "Not logged in.")); //return res.status(400).send({ msg: "Not logged in" });
+			.json(createResponseObject(false, null, "Not logged in."));
 	}
-	res.clearCookie("token");
+	const userId = decodeToken(req.cookies.token).sub;
+	destroyInterviewSession(userId);
 
-	//return res
-	//	.status(200)
-	//	.send({ success: true, msg: "Successfully logged out" });
+	res.clearCookie("token");
 
 	return res
 		.status(200)
@@ -64,5 +65,5 @@ export function getStatus(req, res) {
 			.json(createResponseObject(false, null, "Not logged in."));
 	}
 
-	return res.status(200).json(createResponseObject(true, null, null));
+	return res.status(200).json(createResponseObject(true, "", null));
 }

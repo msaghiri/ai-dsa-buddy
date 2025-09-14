@@ -27,7 +27,8 @@ export function initiateInterviewSession(userId) {
 }
 
 export async function sendMessage(userId, message) {
-	if (!interviewSessionExists(userId)) initiateInterviewSession(userId);
+	if (!interviewSessionExists(userId))
+		return "Interview session does not exist";
 
 	const response = await interviewSessions[userId].sendMessage({ message });
 

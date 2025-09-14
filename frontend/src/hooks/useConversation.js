@@ -6,7 +6,7 @@ import {
 } from "../services/geminiService.js";
 import { sendCodeToModel } from "../services/codeService.js";
 
-//Add message is for frontend only
+//This method only adds the message for the frontend
 const addMessage = (setMessages, message) => {
 	storeMessage(message);
 	setMessages((prev) => [...prev, message]);
@@ -25,9 +25,9 @@ export default function useConversation() {
 	const [input, setInput] = useState("");
 	const endRef = useRef(null);
 
-	useEffect(() => {
+	/*useEffect(() => {
 		initiateConversation().catch(console.error);
-	}, []);
+	}, []);*/
 
 	useEffect(() => {
 		endRef.current?.scrollIntoView({ behavior: "smooth" });

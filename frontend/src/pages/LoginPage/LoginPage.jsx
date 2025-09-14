@@ -1,20 +1,34 @@
 import GoogleLoginButton from "../../components/GoogleLoginButton/GoogleLoginButton";
 import LogoutButton from "../../components/LogoutButton/LogoutButton";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import { useNavigate } from "react-router-dom";
 import config from "../../config.mjs";
+import { useState, useEffect } from "react";
+import { verifyAuth } from "../../services/authService";
 
 import style from "./LoginPage.module.css";
 
 function LoginPage() {
-	const navigate = useNavigate();
+	const [isLoggedIn, setIsLoggedIn] = useState();
+
+	useEffect(() => {
+		const checkAuth = async () => {
+			const isAuth = await verifyAuth();
+			setIsLoggedIn(isAuth);
+		};
+
+		checkAuth();
+	}, []);
 
 	return (
 		<div className={style.loginPageContainer}>
-			<GoogleOAuthProvider clientId={config.CLIENT_ID}>
-				<h1 className={style.loginPageHeader}>Sign in</h1>
-				<GoogleLoginButton />
-			</GoogleOAuthProvider>
+			{!isLoggedIn ? (
+				<GoogleOAuthProvider clientId={config.CLIENT_ID}>
+					<h1 className={style.loginPageHeader}>Sign in</h1>
+					<GoogleLoginButton />
+				</GoogleOAuthProvider>
+			) : (
+				<LogoutButton />
+			)}
 		</div>
 	);
 }

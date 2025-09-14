@@ -14,7 +14,7 @@ export function createJWT(user) {
 		expiresIn: "4h",
 		issuer: "myapp.com",
 		audience: "ai_dsa_buddy",
-		subject: user.userId,
+		sub: user.userId,
 		jwtid: v4(),
 	});
 

@@ -17,7 +17,6 @@ export async function authenticate(authCode) {
 		if (!data.success) {
 			throw new Error("Authentication Error");
 		}
-
 		return data;
 	} catch (err) {
 		console.log(err);
