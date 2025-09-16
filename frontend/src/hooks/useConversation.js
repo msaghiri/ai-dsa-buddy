@@ -25,10 +25,6 @@ export default function useConversation() {
 	const [input, setInput] = useState("");
 	const endRef = useRef(null);
 
-	/*useEffect(() => {
-		initiateConversation().catch(console.error);
-	}, []);*/
-
 	useEffect(() => {
 		endRef.current?.scrollIntoView({ behavior: "smooth" });
 	}, [messages, isLoading]);

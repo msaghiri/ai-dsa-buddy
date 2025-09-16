@@ -78,5 +78,3 @@ export function storeMessage(message) {
 export function clearStorage() {
 	localStorage.removeItem("conversation");
 }
-
-export function init() {} //might be unnecessary we'll find out soon

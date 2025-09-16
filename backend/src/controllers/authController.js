@@ -34,7 +34,7 @@ export async function login(req, res) {
 	} catch (err) {
 		console.error("Login error:", err);
 		return res
-			.status(200)
+			.status(400)
 			.json(createResponseObject(false, null, "Failed to authenticate user."));
 	}
 }
