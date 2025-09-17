@@ -1,4 +1,6 @@
 import { send } from "./interviewController.js";
+import { verifyAuth, decodeToken } from "../utils/authUtils.js";
+import { interviewSessionExists } from "../interviews/interviewManager.js";
 
 export async function sendCodeToModel(req, res) {
 	const code = req.body.code;
@@ -20,37 +22,49 @@ export async function sendCodeToModel(req, res) {
 }
 
 export async function testCode(req, res) {
-	//const solutionFunction = req.body.code;
+	const token = req.cookies.token;
 
-	const solutionFunction = `
-def solution():
-	print("Hello world!")`;
+	if (!verifyAuth(token))
+		return res.status(401).json({
+			success: false,
+			msg: "User not logged in, could not run code.",
+		});
 
-	const test = `
-${solutionFunction}
-solution()`;
+	try {
+		const userInformation = decodeToken(token);
+		if (!userInformation) throw new Error("Failed to verify user.");
+		if (!interviewSessionExists(userInformation.sub))
+			throw new Error("User is not engaged in an interview.");
 
-	const bodyObject = {
-		language: "python",
-		version: "3.10.0",
-		files: [
-			{
-				content: test.trim(),
+		const solutionFunction = req.body.code;
+		if (!solutionFunction) throw new Error("No code provided to test.");
+
+		const bodyObject = {
+			language: "python",
+			version: "3.10.0",
+			files: [
+				{
+					content: solutionFunction.trim(),
+				},
+			],
+		};
+
+		const result = await fetch("https://emkc.org/api/v2/piston/execute", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
 			},
-		],
-	};
-
-	const result = await fetch("https://emkc.org/api/v2/piston/execute", {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify(bodyObject),
-	});
-
-	const data = await result.json();
-	console.log(test.trim());
-	console.log(data);
+			body: JSON.stringify(bodyObject),
+		});
+		const data = await result.json();
+		res.status(200).json({
+			success: true,
+			data: data.run.output,
+		});
+	} catch (err) {
+		res.status(400).json({
+			success: false,
+			msg: err.message,
+		});
+	}
 }
-
-await testCode(1, 1);

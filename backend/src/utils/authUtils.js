@@ -14,7 +14,6 @@ export function createJWT(user) {
 		expiresIn: "4h",
 		issuer: "myapp.com",
 		audience: "ai_dsa_buddy",
-		sub: user.userId,
 		jwtid: v4(),
 	});
 
@@ -76,7 +75,7 @@ export async function verifyUser(code) {
 		}
 
 		return {
-			userId: payload.sub,
+			sub: payload.sub,
 			email: payload.email,
 		};
 	} catch (err) {
@@ -113,8 +112,6 @@ export function createAuthenticationCookie(req, res, user) {
 			maxAge: 1000 * 60 * 60 * 4,
 		});
 	} catch (err) {
-		throw new Error(
-			"Failed to Authenticate User -- Failed to set Authentication Cookie"
-		);
+		throw new Error(err);
 	}
 }

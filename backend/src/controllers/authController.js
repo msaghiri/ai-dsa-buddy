@@ -27,8 +27,8 @@ export async function login(req, res) {
 		const user = await verifyUser(req.body.code);
 		createAuthenticationCookie(req, res, user);
 
-		const userExists = await User.exists({ _id: user.userId });
-		if (!userExists) await addUser(user.userId, user.email, user.email);
+		const userExists = await User.exists({ _id: user.sub });
+		if (!userExists) await addUser(user.sub, user.email, user.email);
 
 		return res.status(200).json(createResponseObject(true, null, null));
 	} catch (err) {
@@ -65,5 +65,7 @@ export function getStatus(req, res) {
 			.json(createResponseObject(false, null, "Not logged in."));
 	}
 
-	return res.status(200).json(createResponseObject(true, "", null));
+	return res
+		.status(200)
+		.json(createResponseObject(true, "User is logged in.", null));
 }

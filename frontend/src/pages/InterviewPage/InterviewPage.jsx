@@ -7,6 +7,7 @@ import "prismjs/components/prism-python";
 import "prismjs/themes/prism-okaidia.css";
 import style from "./InterviewPage.module.css";
 import { initiateConversation } from "../../services/geminiService.js";
+import { testCode } from "../../services/codeService.js";
 
 function InterviewPage() {
 	useEffect(() => {
@@ -19,6 +20,11 @@ function InterviewPage() {
 		(code) => Prism.highlight(code, Prism.languages.python, "python"),
 		[]
 	);
+
+	const handleTestCode = async () => {
+		const res = await testCode(code);
+		console.log(res);
+	};
 
 	const conversationRef = useRef(null);
 
@@ -54,7 +60,9 @@ function InterviewPage() {
 					>
 						Review Code
 					</button>
-					<button className={style.actionButton}>Run tests</button>
+					<button className={style.actionButton} onClick={handleTestCode}>
+						Run tests
+					</button>
 				</div>
 			</div>
 		</div>

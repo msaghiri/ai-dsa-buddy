@@ -14,7 +14,7 @@ export async function initInterview(req, res) {
 		const userInformation = decodeToken(token);
 		if (!userInformation) throw new Error("Failed to verify user");
 
-		if (initiateInterviewSession(userInformation.userId) === false) {
+		if (!initiateInterviewSession(userInformation.sub)) {
 			throw new Error("User already engaged in an interview.");
 		}
 
@@ -40,7 +40,7 @@ export async function send(req, res) {
 		const message = req.body.message;
 		if (!message) throw new Error("No message");
 
-		const response = await sendMessage(userInformation.userId, message);
+		const response = await sendMessage(userInformation.sub, message);
 
 		return res.status(200).json({
 			success: true,
@@ -61,7 +61,7 @@ export async function endInterview(req, res) {
 		const userInformation = decodeToken(token);
 		if (!userInformation) throw new Error("Failed to verify user");
 
-		const result = destroyInterviewSession(userInformation.userId);
+		const result = destroyInterviewSession(userInformation.sub);
 		if (!result) throw new Error("Interview session does not exist.");
 
 		return res.status(200).json({

@@ -25,3 +25,22 @@ export async function sendCodeToModel(code) {
 		return false;
 	}
 }
+
+export async function testCode(code) {
+	try {
+		const res = await fetch(`${config.API_URL}/code/run-tests`, {
+			method: "POST",
+			body: JSON.stringify(createCodePayload(code)),
+			credentials: "include",
+			headers: JSON_HEADERS,
+		});
+
+		const data = await res.json();
+		if (!data.success) throw new Error("Failed to retrieve response from API.");
+
+		return data.data;
+	} catch (err) {
+		console.log(err);
+		return false;
+	}
+}
