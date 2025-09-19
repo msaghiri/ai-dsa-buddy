@@ -14,7 +14,7 @@ export async function initInterview(req, res) {
 		const userInformation = decodeToken(token);
 		if (!userInformation) throw new Error("Failed to verify user");
 
-		if (!initiateInterviewSession(userInformation.sub)) {
+		if (!initiateInterviewSession(userInformation.sub, "two-sum")) {
 			throw new Error("User already engaged in an interview.");
 		}
 
