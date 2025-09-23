@@ -1,6 +1,7 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 
 import ConversationComponent from "../../components/ConversationComponent/ConversationComponent.jsx";
+import CodeResultsComponent from "../../components/CodeResultsComponent/CodeResultsComponent.jsx";
 import Editor from "react-simple-code-editor";
 import Prism from "prismjs";
 import "prismjs/components/prism-python";
@@ -15,6 +16,23 @@ function InterviewPage() {
 	}, []);
 
 	const [code, setCode] = useState("");
+	const [results, setResults] = useState([
+		{
+			pass: true,
+			expectedResult: 4,
+			result: 4,
+		},
+		{
+			pass: true,
+			expectedResult: 10,
+			result: 10,
+		},
+		{
+			pass: false,
+			expectedResult: 20,
+			result: 4,
+		},
+	]);
 
 	const highlightCode = useCallback(
 		(code) => Prism.highlight(code, Prism.languages.python, "python"),
@@ -24,12 +42,14 @@ function InterviewPage() {
 	const handleTestCode = async () => {
 		const res = await testCode(code);
 		console.log(res);
+		//here we set the test results based on res
 	};
 
 	const conversationRef = useRef(null);
 
 	return (
 		<div className={style.interviewPageContainer}>
+			<CodeResultsComponent results={results} />
 			<div className={style.editorBackground}>
 				<Editor
 					value={code}

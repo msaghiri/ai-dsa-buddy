@@ -1,0 +1,66 @@
+.codeResultsContainer {
+	font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+		Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+
+	width: fit-content;
+	min-width: 300px;
+	max-width: 400px;
+	height: 700px;
+	border-radius: 40px;
+
+	background: radial-gradient(circle at 0% 0%, #dd00ff13 0%, transparent 50%),
+		radial-gradient(circle at 40% 40%, #00a78628 0%, transparent 55%),
+		radial-gradient(circle at 100% 100%, #ff000013 0%, transparent 65%), #0f0f14;
+
+	display: flex;
+	flex-direction: column;
+	padding-top: 40px;
+	gap: 20px;
+
+	align-items: center;
+	justify-content: flex-start;
+
+	border: solid rgba(255, 255, 255, 0.336) 1px;
+
+	overflow: scroll;
+}
+
+.result {
+	width: 80%;
+	height: 70px;
+	border-radius: 40px;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.pass {
+	background-color: rgba(0, 128, 0, 0.2);
+}
+
+.fail {
+	background-color: rgba(255, 0, 0, 0.2);
+}
+
+.displayDiff {
+	display: flex;
+	gap: 20%;
+	background-color: rgba(0, 0, 0, 0.301);
+	width: 60%;
+	height: 50%;
+	border-radius: 40px;
+	justify-content: center;
+	align-items: center;
+}
+
+.displayDiff p {
+	font-size: 24px;
+}
+
+.expected {
+	color: rgb(69, 255, 69);
+}
+.userRes {
+	color: rgb(255, 86, 86);
+}

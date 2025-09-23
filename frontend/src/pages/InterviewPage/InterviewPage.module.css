@@ -16,6 +16,7 @@
 
 .editorBackground {
 	width: 700px;
+	min-width: 650px;
 	height: 700px;
 	background: radial-gradient(circle at 0% 0%, #e07bff0a 0%, transparent 60%),
 		radial-gradient(circle at 70% 40%, #5d83ff15 0%, transparent 50%),

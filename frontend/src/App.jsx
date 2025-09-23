@@ -16,9 +16,9 @@ export function App() {
 			<Routes>
 				{/*<Route path="/" element={<Navigate to="/interview" />} />*/}
 				<Route path="login" element={<LoginPage />} />
-				{/*<Route path="interview" element={<InterviewPage />} />*/}
+				{<Route path="interview" element={<InterviewPage />} />}
 				<Route element={<ProtectedRoutes />}>
-					{<Route path="interview" element={<InterviewPage />} />}
+					{/*<Route path="interview" element={<InterviewPage />} />*/}
 				</Route>
 			</Routes>
 		</div>
