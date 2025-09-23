@@ -31,6 +31,10 @@ export function interviewSessionExists(userId) {
 	return !!interviewSessions[userId];
 }
 
+export function getInterviewSession(userId) {
+	return interviewSessions[userId];
+}
+
 export function initiateInterviewSession(userId, question) {
 	if (interviewSessionExists(userId)) return false;
 

@@ -1,6 +1,10 @@
 import { send } from "./interviewController.js";
 import { verifyAuth, decodeToken } from "../utils/authUtils.js";
-import { interviewSessionExists } from "../interviews/interviewManager.js";
+import {
+	interviewSessionExists,
+	getInterviewSession,
+} from "../interviews/interviewManager.js";
+import { createTestPayload } from "../questions/questions.js";
 
 export async function sendCodeToModel(req, res) {
 	const code = req.body.code;
@@ -33,18 +37,28 @@ export async function testCode(req, res) {
 	try {
 		const userInformation = decodeToken(token);
 		if (!userInformation) throw new Error("Failed to verify user.");
+
 		if (!interviewSessionExists(userInformation.sub))
 			throw new Error("User is not engaged in an interview.");
 
+		const interviewQuestion = getInterviewSession(userInformation.sub).question;
+		const testCase = interviewQuestion.testCases[0];
+
 		const solutionFunction = req.body.code;
 		if (!solutionFunction) throw new Error("No code provided to test.");
+
+		const testPayload = createTestPayload(
+			solutionFunction,
+			testCase.args,
+			testCase.expectedAnswer
+		);
 
 		const bodyObject = {
 			language: "python",
 			version: "3.10.0",
 			files: [
 				{
-					content: solutionFunction.trim(),
+					content: testPayload.trim(),
 				},
 			],
 		};
