@@ -25,8 +25,6 @@ Focus only on the question below.
 
 Candidate instructions:
 Assume the candidate will respond with their thoughts or code in plain text. Adapt your next question or hint based on their answer.
-
-Question:
 		`,
 };
 

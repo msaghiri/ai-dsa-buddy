@@ -24,7 +24,13 @@ const createInterviewSession = (question, chat, timeStarted, solved) => ({
 });
 
 const createQuestionPrompt = (questionPrompt) => {
-	return `${config.PROMPT}\n${questionPrompt}`.trim();
+	return `${config.PROMPT}
+Question: ${questionPrompt}
+
+Example 1:
+Input: Hey!
+Output: ${questionPrompt}, how do you plan on approaching this problem?
+`;
 };
 
 export function interviewSessionExists(userId) {
@@ -41,11 +47,13 @@ export function initiateInterviewSession(userId, question) {
 	const questionObject = questions[question];
 	if (!questionObject) return false;
 
+	console.log(createQuestionPrompt(questionObject.prompt));
+
 	const newChatObject = ai.chats.create({
 		model: config.GEMINI_MODEL,
 		history: [],
 		config: {
-			systemInstruction: createQuestionPrompt(question.prompt),
+			systemInstruction: createQuestionPrompt(questionObject.prompt),
 		},
 	});
 
