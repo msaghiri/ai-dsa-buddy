@@ -1,8 +1,8 @@
 const icons = {
 	check: (
 		<svg
-			width="64px"
-			height="64px"
+			width="48px"
+			height="48px"
 			viewBox="0 0 24 24"
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg"
@@ -20,26 +20,26 @@ const icons = {
 
 	fail: (
 		<svg
-			width="60px"
-			height="60px"
+			width="48px"
+			height="48px"
 			viewBox="0 0 24 24"
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg"
 		>
-			<g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+			<g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
 			<g
 				id="SVGRepo_tracerCarrier"
-				stroke-linecap="round"
-				stroke-linejoin="round"
+				strokeLinecap="round"
+				strokeLinejoin="round"
 			></g>
 			<g id="SVGRepo_iconCarrier">
 				{" "}
 				<path
 					d="M19 5L4.99998 19M5.00001 5L19 19"
 					stroke="#ffffff"
-					stroke-width="1.5"
-					stroke-linecap="round"
-					stroke-linejoin="round"
+					strokeWidth="1.5"
+					strokeLinecap="round"
+					strokeLinejoin="round"
 				></path>{" "}
 			</g>
 		</svg>

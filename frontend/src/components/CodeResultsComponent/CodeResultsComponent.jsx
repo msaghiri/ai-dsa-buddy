@@ -1,6 +1,6 @@
 import style from "./CodeResultsComponent.module.css";
 import icons from "../../assets/svg_icons.jsx";
-
+import { useState } from "react";
 /*
 
 Result object:
@@ -12,21 +12,42 @@ Result object:
 
 */
 
-function Result({ result }) {
-	const styles = `${style.result} ${result.pass ? style.pass : style.fail}`;
-	return (
-		<div className={styles}>
-			{result.pass && icons.check}
-			{!result.pass && icons.fail}
+function PassResult() {
+	const styles = `${style.result} ${style.pass}`;
+	return <div className={styles}>{icons.check}</div>;
+}
 
-			{!result.pass && (
+function FailResult({ result }) {
+	const [expanded, setExpanded] = useState(false);
+	const styles = `${style.result} ${style.fail} ${
+		expanded ? style.expanded : ""
+	}`;
+
+	const handleExpansion = () => {
+		setExpanded((e) => !e);
+	};
+
+	return (
+		<div className={styles} onClick={handleExpansion}>
+			{icons.fail}
+			{expanded && (
 				<div className={style.displayDiff}>
-					<p className={style.userRes}>{result.result}</p>
-					<p className={style.expected}>{result.expectedResult}</p>
+					<div className={style.expectedContainer}>
+						<p>Expected:</p>
+						<p className={style.expectedP}>{result.expectedResult}</p>
+					</div>
+					<div className={style.outputContainer}>
+						<p>Output: </p>
+						<p className={style.outputP}>{result.result}</p>
+					</div>
 				</div>
 			)}
 		</div>
 	);
+}
+
+function Result({ result }) {
+	return result.pass ? <PassResult /> : <FailResult result={result} />;
 }
 
 function CodeResultsComponent({ results }) {

@@ -7,6 +7,8 @@
 
 .app {
 	min-height: 100vh;
+	min-width: 100%;
+	width: fit-content;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
