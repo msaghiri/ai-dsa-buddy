@@ -3,6 +3,7 @@ import { verifyAuth, decodeToken } from "../utils/authUtils.js";
 import {
 	interviewSessionExists,
 	getInterviewSession,
+	recordAttempt,
 } from "../interviews/interviewManager.js";
 import fs from "fs";
 
@@ -53,6 +54,14 @@ async function runCases(grader, solutionFunction) {
 	});
 
 	const data = await result.json();
+
+	if (data.run.code !== 0) {
+		return {
+			passed: false,
+			error: data.run.stderr,
+		};
+	}
+
 	const results = JSON.parse(data.run.output);
 
 	return results;
@@ -66,14 +75,12 @@ export async function testCode(req, res) {
 			success: false,
 			msg: "User not logged in, could not run code.",
 		});
-	//////////////////////////////////////////////////////////////////////////
 	try {
 		const userInformation = decodeToken(token);
 		if (!userInformation) throw new Error("Failed to verify user.");
 
 		if (!interviewSessionExists(userInformation.sub))
 			throw new Error("User is not engaged in an interview.");
-		///////////////////////////////////////////////////////////////////////////////
 
 		const interviewQuestion = getInterviewSession(userInformation.sub).question;
 		if (!interviewQuestion) throw new Error("Question does not exist");
@@ -85,6 +92,8 @@ export async function testCode(req, res) {
 			interviewQuestion.grader,
 			solutionFunction
 		);
+
+		recordAttempt(userInformation.sub, testResults);
 
 		res.status(200).json({
 			success: true,

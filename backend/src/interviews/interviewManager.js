@@ -9,18 +9,30 @@ const ai = new GoogleGenAI({});
 	Interview Object:
 	- userId (key)
 	- question (lets actually pass the whole question object for now)
+	- chat
 	- dateStarted
 	- solved (maybe a true/false flag for solved... idk, what would I need that for?)
-	- timeElapsed/timeRemaining (if i want timer functionality or to stop the interview due to inactivity)
+
+	- attempted
+	- latestAttempt
 */
 
 const interviewSessions = {};
 
-const createInterviewSession = (question, chat, timeStarted, solved) => ({
+const createInterviewSession = (
 	question,
 	chat,
 	timeStarted,
 	solved,
+	attempted,
+	lastAttempt
+) => ({
+	question,
+	chat,
+	timeStarted,
+	solved,
+	attempted,
+	lastAttempt,
 });
 
 const createQuestionPrompt = (questionPrompt) => {
@@ -61,12 +73,34 @@ export function initiateInterviewSession(userId, question) {
 		questionObject,
 		newChatObject,
 		Date.now(),
-		false
+		false,
+		false,
+		{}
 	);
 
 	interviewSessions[userId] = newInterviewSession;
 
 	return true;
+}
+
+export function recordAttempt(userId, attempt) {
+	if (!interviewSessionExists(userId))
+		throw new Error("Interview session does not exist");
+
+	const interview = interviewSessions[userId];
+
+	if (!interview.attempted) interview.attempted = true;
+
+	interview.attempt = attempt;
+}
+
+export function getLastAttempt(userId) {
+	if (!interviewSessionExists(userId))
+		throw new Error("Interview session does not exist");
+
+	if (!userId.attempted) throw new Error("No attempts were submitted.");
+
+	return userId.lastAttempt;
 }
 
 export async function sendMessage(userId, message) {
