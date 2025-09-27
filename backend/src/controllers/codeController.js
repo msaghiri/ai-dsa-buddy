@@ -4,16 +4,16 @@ import {
 	interviewSessionExists,
 	getInterviewSession,
 } from "../interviews/interviewManager.js";
-import { createTestPayload } from "../questions/questions.js";
+import fs from "fs";
 
 export async function sendCodeToModel(req, res) {
 	const code = req.body.code;
 	if (!code) return res.status(400).send("No code submitted");
 
-	const prompt = `The following code is Users progress so far in attempting to solve the problem. Concisely provide input in no more than 3 sentences. 
+	const prompt = `The following code is the candidates progress so far in attempting to solve the problem. Concisely provide input in no more than 3 sentences. 
         Do not give any hints that an average interviewer wouldn't. 
         Feel free to ask a guiding question or two or to 
-        provide trivial advice. This is NOT necessarily Users final solution, so if it is generally a step in the right direction, do acknowledge that.
+        provide trivial advice. This is NOT necessarily the candidates final solution, so if it is generally a step in the right direction, please do acknowledge that.
         
         ${code}`;
 
@@ -25,6 +25,39 @@ export async function sendCodeToModel(req, res) {
 	}
 }
 
+async function runCases(grader, solutionFunction) {
+	const graderPath = `./src/questions/graders/${grader}`;
+
+	const solutionFile = {
+		name: "solution.py",
+		content: solutionFunction.trim(),
+	};
+
+	const graderFile = {
+		name: "grader.py",
+		content: fs.readFileSync(graderPath, "utf-8"),
+	};
+
+	const bodyObject = {
+		language: "python",
+		version: "3.10.0",
+		files: [graderFile, solutionFile],
+	};
+
+	const result = await fetch("https://emkc.org/api/v2/piston/execute", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(bodyObject),
+	});
+
+	const data = await result.json();
+	const results = JSON.parse(data.run.output);
+
+	return results;
+}
+
 export async function testCode(req, res) {
 	const token = req.cookies.token;
 
@@ -33,47 +66,30 @@ export async function testCode(req, res) {
 			success: false,
 			msg: "User not logged in, could not run code.",
 		});
-
+	//////////////////////////////////////////////////////////////////////////
 	try {
 		const userInformation = decodeToken(token);
 		if (!userInformation) throw new Error("Failed to verify user.");
 
 		if (!interviewSessionExists(userInformation.sub))
 			throw new Error("User is not engaged in an interview.");
+		///////////////////////////////////////////////////////////////////////////////
 
 		const interviewQuestion = getInterviewSession(userInformation.sub).question;
-		const testCase = interviewQuestion.testCases[0];
+		if (!interviewQuestion) throw new Error("Question does not exist");
 
 		const solutionFunction = req.body.code;
 		if (!solutionFunction) throw new Error("No code provided to test.");
 
-		const testPayload = createTestPayload(
-			solutionFunction,
-			testCase.args,
-			testCase.expectedAnswer
+		const testResults = await runCases(
+			interviewQuestion.grader,
+			solutionFunction
 		);
 
-		const bodyObject = {
-			language: "python",
-			version: "3.10.0",
-			files: [
-				{
-					content: testPayload.trim(),
-				},
-			],
-		};
-
-		const result = await fetch("https://emkc.org/api/v2/piston/execute", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(bodyObject),
-		});
-		const data = await result.json();
 		res.status(200).json({
 			success: true,
-			data: data.run.output,
+			data: testResults,
+			msg: "",
 		});
 	} catch (err) {
 		res.status(400).json({
