@@ -28,7 +28,7 @@ export async function login(req, res) {
 		createAuthenticationCookie(req, res, user);
 
 		const userExists = await User.exists({ _id: user.sub });
-		if (!userExists) await addUser(user.sub, user.email, user.email);
+		if (!userExists) await addUser(user.sub, user.displayName, user.email);
 
 		return res.status(200).json(createResponseObject(true, null, null));
 	} catch (err) {

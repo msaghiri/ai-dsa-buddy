@@ -74,9 +74,12 @@ export async function verifyUser(code) {
 			throw new Error("Email not verified");
 		}
 
+		const displayName = `${payload.given_name} ${payload.family_name}`;
+
 		return {
 			sub: payload.sub,
 			email: payload.email,
+			displayName,
 		};
 	} catch (err) {
 		console.log(err);
