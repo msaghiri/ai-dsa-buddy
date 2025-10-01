@@ -62,7 +62,7 @@ async function runCases(grader, solutionFunction) {
 		};
 	}
 
-	const results = JSON.parse(data.run.output);
+	const results = JSON.parse(data.run.stdout);
 
 	return results;
 }
