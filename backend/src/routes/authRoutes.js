@@ -1,7 +1,11 @@
 import { Router } from "express";
 import express from "express";
 import cookieParser from "cookie-parser";
-import { login, logout } from "../controllers/authController.js";
+import {
+	getUserInformation,
+	login,
+	logout,
+} from "../controllers/authController.js";
 import { verifyAuth } from "../utils/authUtils.js";
 
 const router = Router({});
@@ -28,5 +32,7 @@ router.get("/status", (req, res) => {
 		error: null,
 	});
 });
+
+router.get("/get-info", getUserInformation);
 
 export default router;

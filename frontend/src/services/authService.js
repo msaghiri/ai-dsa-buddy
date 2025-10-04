@@ -60,3 +60,19 @@ export async function verifyAuth() {
 		return false;
 	}
 }
+
+export async function getUserInformation() {
+	try {
+		const res = await fetch(`${config.API_URL}/auth/get-info`, {
+			method: "GET",
+			credentials: "include",
+			headers: JSON_HEADERS,
+		});
+
+		const formattedResponse = await res.json();
+		return formattedResponse.data;
+	} catch (err) {
+		console.error(err);
+		throw err;
+	}
+}

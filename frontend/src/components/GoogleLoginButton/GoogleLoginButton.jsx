@@ -13,7 +13,7 @@ function GoogleLoginButton() {
 			const res = await authenticate(response.code);
 
 			if (res.success) {
-				navigate("/interview");
+				navigate("/");
 			}
 		},
 		scope: "openid email profile",

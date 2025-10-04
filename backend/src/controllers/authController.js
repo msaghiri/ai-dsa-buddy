@@ -69,3 +69,29 @@ export function getStatus(req, res) {
 		.status(200)
 		.json(createResponseObject(true, "User is logged in.", null));
 }
+
+export function getUserInformation(req, res) {
+	try {
+		const token = req.cookies.token;
+
+		if (!isUserLoggedIn(token)) {
+			return res
+				.status(401)
+				.json(createResponseObject(false, null, "User not authenticated."));
+		}
+
+		const userInfo = decodeToken(token);
+
+		const userProfile = {
+			displayName: userInfo.displayName,
+			email: userInfo.email,
+		};
+
+		return res.status(200).json(createResponseObject(true, userProfile, null));
+	} catch (err) {
+		console.error("Get user info error:", err);
+		return res
+			.status(400)
+			.json(createResponseObject(false, null, "Invalid token."));
+	}
+}

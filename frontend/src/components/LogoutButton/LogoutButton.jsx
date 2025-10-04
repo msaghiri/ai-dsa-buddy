@@ -7,7 +7,7 @@ function LogoutButton() {
 
 	const handleLogOut = async () => {
 		await logout();
-		navigate("/login");
+		window.location.href = "/login";
 	};
 
 	return (
