@@ -7,7 +7,7 @@ import Prism from "prismjs";
 import "prismjs/components/prism-python";
 import "prismjs/themes/prism-okaidia.css";
 import style from "./InterviewPage.module.css";
-import { conversationExists } from "../../services/geminiService.js";
+import { interviewSessionExists } from "../../services/interviewService.js";
 import { testCode } from "../../services/codeService.js";
 import { useNavigate } from "react-router-dom";
 
@@ -16,7 +16,7 @@ function InterviewPage() {
 
 	useEffect(() => {
 		const check = async () => {
-			const res = await conversationExists();
+			const res = await interviewSessionExists();
 			if (!res) navigate("/");
 		};
 

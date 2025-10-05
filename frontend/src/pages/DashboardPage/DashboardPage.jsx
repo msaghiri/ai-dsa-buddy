@@ -1,5 +1,5 @@
 import { getUserInformation } from "../../services/authService";
-import { initiateConversation } from "../../services/geminiService";
+import { initiateInterview } from "../../services/interviewService";
 import styles from "./DashboardPage.module.css";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -23,7 +23,7 @@ function DashboardPage() {
 
 	const handleStartInterview = () => {
 		const start = async () => {
-			const res = await initiateConversation();
+			const res = await initiateInterview();
 			if (res) {
 				navigate("/interview");
 			}

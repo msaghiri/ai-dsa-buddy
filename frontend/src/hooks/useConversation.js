@@ -1,9 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import {
-	storeMessage,
-	sendMessage,
-	initiateConversation,
-} from "../services/geminiService.js";
+import { storeMessage, sendMessage } from "../services/conversationService.js";
 import { sendCodeToModel } from "../services/codeService.js";
 
 //This method only adds the message for the frontend
