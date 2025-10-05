@@ -70,6 +70,10 @@ export async function getUserInformation() {
 		});
 
 		const formattedResponse = await res.json();
+
+		if (!formattedResponse.data)
+			throw new Error("Failed to fetch user information");
+
 		return formattedResponse.data;
 	} catch (err) {
 		console.error(err);

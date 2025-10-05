@@ -7,13 +7,21 @@ import Prism from "prismjs";
 import "prismjs/components/prism-python";
 import "prismjs/themes/prism-okaidia.css";
 import style from "./InterviewPage.module.css";
-import { initiateConversation } from "../../services/geminiService.js";
+import { conversationExists } from "../../services/geminiService.js";
 import { testCode } from "../../services/codeService.js";
+import { useNavigate } from "react-router-dom";
 
 function InterviewPage() {
+	const navigate = useNavigate();
+
 	useEffect(() => {
-		initiateConversation().catch(console.error);
-	}, []);
+		const check = async () => {
+			const res = await conversationExists();
+			if (!res) navigate("/");
+		};
+
+		check();
+	}, [navigate]);
 
 	const [code, setCode] = useState("");
 	const [results, setResults] = useState([

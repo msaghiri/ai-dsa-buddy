@@ -25,6 +25,25 @@ export async function initiateConversation() {
 		return false;
 	}
 }
+
+export async function conversationExists() {
+	try {
+		const res = await fetch(`${config.API_URL}/gemini/convo-exists`, {
+			method: "GET",
+			credentials: "include",
+			headers: JSON_HEADERS,
+		});
+
+		const data = await res.json();
+		if (!data.success) throw new Error("Failed to fetch information");
+
+		return data.data;
+	} catch (err) {
+		console.log(err);
+		return false;
+	}
+}
+
 export async function sendMessage(message) {
 	try {
 		const res = await fetch(`${config.API_URL}/gemini/send-message`, {
