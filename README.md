@@ -115,7 +115,7 @@ Add the following key-value pairs. **Make sure `VITE_CLIENT_ID` is the **same** 
 VITE_CLIENT_ID=YOUR_GOOGLE_CLIENT_ID
 
 # The URL of your running backend server
-VITE_API_URL=http://localhost:3001
+VITE_API_URL=http://localhost:3000/api
 ```
 
 _Note: Vite requires environment variables exposed to the browser to be prefixed with `VITE_`.\_
