@@ -49,4 +49,28 @@ const questions = {
 	"longest-substring": longestSubstring,
 };
 
+export function allQuestions() {
+	return Object.entries(questions).map(([key, question]) => ({
+		id: question.id,
+		name: key,
+		displayName: question.displayName,
+		prompt: question.prompt,
+	}));
+}
+
+export function questionByName(name) {
+	const question = questions[name];
+
+	if (!question) {
+		return null;
+	}
+
+	return {
+		id: question.id,
+		name,
+		displayName: question.displayName,
+		prompt: question.prompt,
+	};
+}
+
 export default questions;

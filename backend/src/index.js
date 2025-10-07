@@ -8,6 +8,7 @@ const PORT = config.PORT || 3000;
 
 import GeminiRouter from "./routes/geminiRoutes.js";
 import CodeRouter from "./routes/codeRoutes.js";
+import QuestionsRouter from "./routes/questionsRoutes.js";
 
 import "./db/database.js";
 
@@ -24,6 +25,7 @@ app.use(cookieParser());
 app.use("/api/auth", AuthRouter);
 app.use("/api/gemini", GeminiRouter);
 app.use("/api/code", CodeRouter);
+app.use("/api/questions", QuestionsRouter);
 
 app.listen(PORT, "localhost", () => {
 	console.log(`Server listening on port ${PORT}`);
