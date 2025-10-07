@@ -6,7 +6,7 @@ This project is a fully featured DSA platform that interviews you. It features a
 
 - **Gemini-powered Technical Interviewer:** The AI interviewer will ask you questions, give you hints, and walk you through the problem you choose as if it was a real interviewer. You can ask clarifying questions, explain your thought process, and receive immediate feedback on the code you've written in the editor.
 - **Live Code Editor:** Write and edit your code in a built-in editor with syntax highlighting. At any time, if you choose, you can submit the code either for feedback from your AI interviewer or to run test cases and receive immediate results.
-- **Code Evaluation (Coming Soon):** When you press "Run tests", a custom written Python grader will immediately run your solution function safely via the Piston API and you will immediately know which test cases you have passed/failed.
+- **Code Evaluation:** When you press "Run tests", a custom written Python grader will immediately run your solution function safely via the Piston API and you will immediately know which test cases you have passed/failed.
 - **Google OAuth:** Secure sign-in with your Google account.
 
 img
@@ -17,7 +17,7 @@ img
 - Frontend: The frontend is written purely using React.js and CSS.
 - Database: State information for interview sessions are stored in-memory for now. User data and (soon) other information from previous interview sessions are stored in a MongoDB database.
 
-### Demo:
+### Demo: (Coming soon)
 
 ##
 
