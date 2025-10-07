@@ -33,7 +33,7 @@ function InterviewPage() {
 
 	const handleTestCode = async () => {
 		const res = await testCode(code);
-		console.log(res);
+		//console.log(res);
 		if (!res || res.error) {
 			setResults([
 				{

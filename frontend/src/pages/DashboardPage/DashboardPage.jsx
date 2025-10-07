@@ -3,6 +3,7 @@ import { initiateInterview } from "../../services/interviewService";
 import styles from "./DashboardPage.module.css";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { clearStorage } from "../../services/conversationService";
 
 function DashboardPage() {
 	const [displayName, setDisplayName] = useState("");
@@ -25,6 +26,7 @@ function DashboardPage() {
 		const start = async () => {
 			const res = await initiateInterview();
 			if (res) {
+				clearStorage();
 				navigate("/interview");
 			}
 		};

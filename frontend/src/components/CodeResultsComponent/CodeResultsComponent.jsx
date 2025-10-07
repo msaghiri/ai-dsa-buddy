@@ -49,7 +49,7 @@ function FailResult({ result }) {
 }
 
 function Result({ result }) {
-	return result.pass ? <PassResult /> : <FailResult result={result} />;
+	return result.passed ? <PassResult /> : <FailResult result={result} />;
 }
 
 function CodeResultsComponent({ results }) {

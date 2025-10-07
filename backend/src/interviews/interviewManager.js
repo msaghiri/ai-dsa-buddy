@@ -59,7 +59,7 @@ export function initiateInterviewSession(userId, question) {
 	const questionObject = questions[question];
 	if (!questionObject) return false;
 
-	console.log(createQuestionPrompt(questionObject.prompt));
+	//console.log(createQuestionPrompt(questionObject.prompt));
 
 	const newChatObject = ai.chats.create({
 		model: config.GEMINI_MODEL,
@@ -92,6 +92,8 @@ export function recordAttempt(userId, attempt) {
 	if (!interview.attempted) interview.attempted = true;
 
 	interview.attempt = attempt;
+
+	console.log(interview.attempt);
 }
 
 export function getLastAttempt(userId) {
