@@ -24,23 +24,7 @@ function InterviewPage() {
 	}, [navigate]);
 
 	const [code, setCode] = useState("");
-	const [results, setResults] = useState([
-		{
-			pass: true,
-			expectedResult: 4,
-			result: 4,
-		},
-		{
-			pass: true,
-			expectedResult: 10,
-			result: 10,
-		},
-		{
-			pass: false,
-			expectedResult: 20,
-			result: 4,
-		},
-	]);
+	const [results, setResults] = useState([]);
 
 	const highlightCode = useCallback(
 		(code) => Prism.highlight(code, Prism.languages.python, "python"),
@@ -50,7 +34,17 @@ function InterviewPage() {
 	const handleTestCode = async () => {
 		const res = await testCode(code);
 		console.log(res);
-		//here we set the test results based on res
+		if (!res || res.error) {
+			setResults([
+				{
+					passed: false,
+					expectedResult: "",
+					result: res.error,
+				},
+			]);
+		} else {
+			setResults(res);
+		}
 	};
 
 	const conversationRef = useRef(null);

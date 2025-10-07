@@ -59,6 +59,8 @@ async function runCases(grader, solutionFunction) {
 		return {
 			passed: false,
 			error: data.run.stderr,
+			expectedResult: "",
+			result: "",
 		};
 	}
 

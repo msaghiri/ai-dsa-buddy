@@ -34,11 +34,13 @@ function FailResult({ result }) {
 				<div className={style.displayDiff}>
 					<div className={style.expectedContainer}>
 						<p>Expected:</p>
-						<p className={style.expectedP}>{result.expectedResult}</p>
+						<p className={style.expectedP}>
+							{JSON.stringify(result.expectedResult)}
+						</p>
 					</div>
 					<div className={style.outputContainer}>
 						<p>Output: </p>
-						<p className={style.outputP}>{result.result}</p>
+						<p className={style.outputP}>{JSON.stringify(result.result)}</p>
 					</div>
 				</div>
 			)}
