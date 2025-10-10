@@ -1,5 +1,5 @@
-import { isUserLoggedIn } from "../utils/authUtils";
-import { allQuestions, questionByName } from "../questions/questions";
+import { isUserLoggedIn } from "../utils/authUtils.js";
+import { allQuestions, questionByName } from "../questions/questions.js";
 
 export function getAllQuestions(req, res) {
 	const token = req.cookies.token;

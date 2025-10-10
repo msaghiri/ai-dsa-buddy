@@ -59,7 +59,7 @@ export function initiateInterviewSession(userId, question) {
 	const questionObject = questions[question];
 	if (!questionObject) return false;
 
-	//console.log(createQuestionPrompt(questionObject.prompt));
+	console.log(createQuestionPrompt(questionObject.prompt));
 
 	const newChatObject = ai.chats.create({
 		model: config.GEMINI_MODEL,
@@ -91,18 +91,20 @@ export function recordAttempt(userId, attempt) {
 
 	if (!interview.attempted) interview.attempted = true;
 
-	interview.attempt = attempt;
+	interview.lastAttempt = attempt;
 
-	console.log(interview.attempt);
+	console.log(interview.lastAttempt);
 }
 
 export function getLastAttempt(userId) {
 	if (!interviewSessionExists(userId))
 		throw new Error("Interview session does not exist");
 
-	if (!userId.attempted) throw new Error("No attempts were submitted.");
+	const session = interviewSessions[userId];
 
-	return userId.lastAttempt;
+	if (!session.attempted) throw new Error("No attempts were submitted.");
+
+	return session.lastAttempt;
 }
 
 export async function sendMessage(userId, message) {

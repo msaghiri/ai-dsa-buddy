@@ -3,12 +3,12 @@ import express from "express";
 import {
 	getAllQuestions,
 	getQuestionByName,
-} from "../controllers/questionsController";
+} from "../controllers/questionsController.js";
 
 const router = Router({});
 router.use(express.json());
 
-router.get("/all", (req, res) => {
+router.get("/", (req, res) => {
 	getAllQuestions(req, res);
 });
 router.get("/:name", (req, res) => {

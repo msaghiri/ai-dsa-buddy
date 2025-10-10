@@ -1,51 +1,84 @@
-import { getUserInformation } from "../../services/authService";
-import { initiateInterview } from "../../services/interviewService";
-import styles from "./DashboardPage.module.css";
+import { getUserInformation } from "../../services/authService.js";
+import { getAllQuestions } from "../../services/questionsService.js"; // Assuming this is the path
+import { initiateInterview } from "../../services/interviewService.js";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { clearStorage } from "../../services/conversationService";
+import { clearStorage } from "../../services/conversationService.js";
+import styles from "./DashboardPage.module.css";
 
 function DashboardPage() {
 	const [displayName, setDisplayName] = useState("");
+	const [questions, setQuestions] = useState([]);
+	const [isLoading, setIsLoading] = useState(true);
+	const [error, setError] = useState(null);
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		const getName = async () => {
+		const loadDashboardData = async () => {
 			try {
-				const name = await getUserInformation();
-				setDisplayName(name.displayName);
+				const [userInfo, questionData] = await Promise.all([
+					getUserInformation(),
+					getAllQuestions(),
+				]);
+
+				setDisplayName(userInfo.displayName);
+				setQuestions(questionData);
 			} catch (err) {
-				navigate("/login");
+				console.error("Failed to load dashboard data:", err);
+				setError("Could not load data. Please try again later.");
+				// navigate("/login");
+			} finally {
+				setIsLoading(false);
 			}
 		};
 
-		getName();
+		loadDashboardData();
 	}, [navigate]);
 
-	const handleStartInterview = () => {
+	// This handler remains unchanged as requested.
+	const handleStartInterview = (name) => {
 		const start = async () => {
-			const res = await initiateInterview();
+			const res = await initiateInterview(name);
 			if (res) {
 				clearStorage();
 				navigate("/interview");
 			}
 		};
-
 		start();
 	};
 
+	if (isLoading) {
+		return <div className={styles.centeredContainer}>Loading...</div>;
+	}
+	if (error) {
+		return <div className={styles.centeredContainer}>{error}</div>;
+	}
+
 	return (
-		<div className={styles.mainPageContainer}>
-			<div className={styles.welcomeBox}>
+		<div className={styles.centeredContainer}>
+			<div className={styles.contentBox}>
 				<h1 className={styles.header}>Welcome, {displayName}</h1>
 				<p className={styles.subHeader}>
-					Ready to start a new practice session?
+					Select a question to begin your practice session.
 				</p>
-				<button className={styles.startButton} onClick={handleStartInterview}>
-					Start New Interview
-				</button>
+
+				<hr className={styles.divider} />
+
+				<h2 className={styles.subHeader}>Or, choose a specific question:</h2>
+				<div className={styles.buttonGrid}>
+					{questions.map((question) => (
+						<button
+							key={question.id}
+							className={styles.secondaryButton}
+							onClick={() => handleStartInterview(question.name)}
+						>
+							{question.displayName}
+						</button>
+					))}
+				</div>
 			</div>
 		</div>
 	);
 }
+
 export default DashboardPage;

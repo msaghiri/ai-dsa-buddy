@@ -1,43 +1,80 @@
-.mainPageContainer {
+/* --- Global Centering and Font --- */
+.centeredContainer {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	height: 100vh;
-
-	font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-		Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+	min-height: 100vh;
+	background-color: #f0f2f500;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+		Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	padding: 20px;
 }
 
-.welcomeBox {
+/* --- Main Content Box --- */
+.contentBox {
+	background: #ffffff1e;
+	padding: 40px;
+	border-radius: 12px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 	text-align: center;
-	padding: 40px 60px;
-	border-radius: 10px;
+	max-width: 600px;
+	width: 100%;
 }
 
+/* --- Typography --- */
 .header {
 	font-size: 2.5rem;
-	color: white;
-	margin-bottom: 1rem;
+	font-weight: 600;
+	color: #feffff;
+	margin-bottom: 12px;
 }
 
 .subHeader {
-	font-size: 1.2rem;
-	color: white;
-	margin-bottom: 2rem;
+	font-size: 1.1rem;
+	color: #ffffff;
+	margin-bottom: 24px;
 }
 
-.startButton {
-	background-color: #007bff;
-	color: white;
+/* --- Buttons --- */
+.primaryButton,
+.secondaryButton {
 	border: none;
-	padding: 15px 30px;
+	border-radius: 8px;
 	font-size: 1rem;
-	font-weight: bold;
-	border-radius: 5px;
+	font-weight: 600;
+	padding: 12px 20px;
 	cursor: pointer;
-	transition: background-color 0.3s ease;
+	transition: all 0.2s ease-in-out;
+	width: 100%;
 }
 
-.startButton:hover {
+.primaryButton {
+	background-color: #007bff;
+	color: rgb(255, 255, 255);
+}
+
+.primaryButton:hover {
 	background-color: #0056b3;
+}
+
+.secondaryButton {
+	background-color: #202020;
+	color: #ffffff;
+}
+
+.secondaryButton:hover {
+	background-color: #d8dade;
+}
+
+/* --- Layout Elements --- */
+.divider {
+	border: none;
+	border-top: 1px solid #e4e6eb;
+	margin: 30px 0;
+}
+
+.buttonGrid {
+	display: grid;
+	grid-template-columns: 1fr; /* Single column for now */
+	gap: 12px;
 }

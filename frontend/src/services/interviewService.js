@@ -3,7 +3,7 @@ import config from "../config.mjs";
 
 const JSON_HEADERS = { "Content-Type": "application/json" };
 
-export async function initiateInterview() {
+export async function initiateInterview(name) {
 	const isAuthenticated = await verifyAuth();
 	if (!isAuthenticated) return false;
 
@@ -12,6 +12,7 @@ export async function initiateInterview() {
 			method: "POST",
 			credentials: "include",
 			headers: JSON_HEADERS,
+			body: JSON.stringify({ question: name }),
 		});
 
 		const data = await res.json();
