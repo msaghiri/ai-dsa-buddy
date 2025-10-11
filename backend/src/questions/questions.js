@@ -8,12 +8,12 @@ const createQuestion = (id, name, displayName, prompt, grader, tags) => ({
 });
 
 const categories = {
-	arrays: "hashing and arrays",
-	strings: "strings",
-	maps: "maps",
-	sets: "sets",
-	dp: "dynamic programming",
-	recursion: "recursion",
+	arrays: "Hashing and Arrays",
+	strings: "Strings",
+	maps: "Maps",
+	sets: "Sets",
+	dp: "Dynamic Programming",
+	recursion: "Recursion",
 };
 
 const twoSum = createQuestion(
@@ -37,7 +37,7 @@ const validAnagram = createQuestion(
 const longestSubstring = createQuestion(
 	2,
 	"longest-substring",
-	"Longest Substring Without Repeating Characters",
+	"Longest Substring...",
 	`Given a string s, find the length of the longest substring without repeating characters.`,
 	"longest_substring_grader.py",
 	[categories.strings, categories.sets]
@@ -55,6 +55,7 @@ export function allQuestions() {
 		name: key,
 		displayName: question.displayName,
 		prompt: question.prompt,
+		tags: question.tags,
 	}));
 }
 

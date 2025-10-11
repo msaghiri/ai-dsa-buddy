@@ -26,7 +26,7 @@ function DashboardPage() {
 			} catch (err) {
 				console.error("Failed to load dashboard data:", err);
 				setError("Could not load data. Please try again later.");
-				// navigate("/login");
+				navigate("/login");
 			} finally {
 				setIsLoading(false);
 			}
@@ -35,7 +35,6 @@ function DashboardPage() {
 		loadDashboardData();
 	}, [navigate]);
 
-	// This handler remains unchanged as requested.
 	const handleStartInterview = (name) => {
 		const start = async () => {
 			const res = await initiateInterview(name);
@@ -56,15 +55,11 @@ function DashboardPage() {
 
 	return (
 		<div className={styles.centeredContainer}>
+			<h1 className={styles.header}>Welcome, {displayName}</h1>
+			<p className={styles.subHeader}>
+				Select a question to begin your practice session.
+			</p>
 			<div className={styles.contentBox}>
-				<h1 className={styles.header}>Welcome, {displayName}</h1>
-				<p className={styles.subHeader}>
-					Select a question to begin your practice session.
-				</p>
-
-				<hr className={styles.divider} />
-
-				<h2 className={styles.subHeader}>Or, choose a specific question:</h2>
 				<div className={styles.buttonGrid}>
 					{questions.map((question) => (
 						<button
@@ -72,7 +67,15 @@ function DashboardPage() {
 							className={styles.secondaryButton}
 							onClick={() => handleStartInterview(question.name)}
 						>
-							{question.displayName}
+							<div className={styles.questionNameContainer}>
+								<p className={styles.questionName}>{question.displayName}</p>
+							</div>
+
+							<div className={styles.tagsBox}>
+								{question.tags.map((tag) => (
+									<p className={styles.tag}>{tag}</p>
+								))}
+							</div>
 						</button>
 					))}
 				</div>
