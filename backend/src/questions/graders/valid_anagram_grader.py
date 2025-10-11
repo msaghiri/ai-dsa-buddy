@@ -49,7 +49,7 @@ results = []
 for i, test_case in enumerate(test_cases):
     user_output = solution(*test_case['args'])
 
-    passed = sorted(user_output) == test_case['expectedResult']
+    passed = user_output == test_case['expectedResult']
 
     results.append({
         "case": i,
