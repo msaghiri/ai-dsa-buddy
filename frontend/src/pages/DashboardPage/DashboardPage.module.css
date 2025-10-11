@@ -28,6 +28,9 @@
 		radial-gradient(circle at 70% 40%, #5d83ff15 0%, transparent 50%),
 		radial-gradient(circle at 50% 100%, #ff00000e 0%, transparent 50%),
 		rgba(0, 0, 0, 0.199);
+
+	max-height: 450px;
+	overflow: scroll;
 }
 
 /* --- Typography --- */
@@ -54,8 +57,8 @@
 	padding: 12px 20px;
 	cursor: pointer;
 	transition: all 0.2s ease-in-out;
-	width: 450px;
-	min-height: 70px;
+	width: 100%;
+	min-height: 120px;
 }
 
 .secondaryButton {
@@ -74,13 +77,16 @@
 	flex-direction: column;
 	gap: 10px;
 	width: 100%;
+	align-items: flex-end;
+	justify-content: center;
 }
 .tag {
-	background-color: rgba(0, 255, 255, 0.24);
+	background-color: rgba(0, 255, 255, 0.103);
 	border-radius: 20px;
 	font-size: 16px;
 	height: 30px;
-	width: 100%;
+	width: fit-content;
+	padding: 20px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -101,7 +107,9 @@
 }
 
 .buttonGrid {
-	display: grid;
-	grid-template-columns: 1fr; /* Single column for now */
-	gap: 12px;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	align-items: center;
+	gap: 20px;
 }

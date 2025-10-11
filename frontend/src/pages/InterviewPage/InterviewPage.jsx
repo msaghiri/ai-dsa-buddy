@@ -14,6 +14,8 @@ import { useNavigate } from "react-router-dom";
 function InterviewPage() {
 	const navigate = useNavigate();
 
+	const [question, setQuestion] = useState();
+
 	useEffect(() => {
 		const check = async () => {
 			const res = await interviewSessionExists();
@@ -51,7 +53,10 @@ function InterviewPage() {
 
 	return (
 		<div className={style.interviewPageContainer}>
-			<CodeResultsComponent results={results} />
+			<div className={style.leftHandSide}>
+				<div className={style.promptContainer}></div>
+				<CodeResultsComponent results={results} />
+			</div>
 			<div className={style.editorBackground}>
 				<Editor
 					value={code}

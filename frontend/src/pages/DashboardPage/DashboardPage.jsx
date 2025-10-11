@@ -78,6 +78,21 @@ function DashboardPage() {
 							</div>
 						</button>
 					))}
+
+					<button
+						key={20}
+						className={styles.secondaryButton}
+						onClick={() => handleStartInterview("")}
+					>
+						<div className={styles.questionNameContainer}>
+							<p className={styles.questionName}>Sample question</p>
+						</div>
+
+						<div className={styles.tagsBox}>
+							<p className={styles.tag}>Tag 1</p>
+							<p className={styles.tag}>Tag 2</p>
+						</div>
+					</button>
 				</div>
 			</div>
 		</div>
