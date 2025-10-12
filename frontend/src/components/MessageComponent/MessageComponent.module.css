@@ -59,7 +59,7 @@
 .model {
 	margin-left: 10px;
 	background: linear-gradient(-90deg, #1662a165, #1662a115);
-	padding-right: 5%;
+	padding-left: 5%;
 }
 
 .user p {
@@ -68,5 +68,5 @@
 
 .model p {
 	width: 100%;
-	text-align: right;
+	text-align: left;
 }

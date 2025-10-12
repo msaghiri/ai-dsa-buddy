@@ -1,5 +1,8 @@
 import { getUserInformation } from "../../services/authService.js";
-import { getAllQuestions } from "../../services/questionsService.js"; // Assuming this is the path
+import {
+	getAllQuestions,
+	getQuestionByName,
+} from "../../services/questionsService.js"; // Assuming this is the path
 import { initiateInterview } from "../../services/interviewService.js";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -40,6 +43,9 @@ function DashboardPage() {
 			const res = await initiateInterview(name);
 			if (res) {
 				clearStorage();
+				const question = await getQuestionByName(name);
+				if (!question) console.log("Failed, no question");
+				localStorage.setItem("question", JSON.stringify(question));
 				navigate("/interview");
 			}
 		};

@@ -11,10 +11,17 @@ import { interviewSessionExists } from "../../services/interviewService.js";
 import { testCode } from "../../services/codeService.js";
 import { useNavigate } from "react-router-dom";
 
+function PromptContainer({ question }) {
+	return (
+		<div className={style.promptContainer}>
+			<h1 className={style.questionTitle}>{question.displayName}</h1>
+			<p className={style.questionPrompt}>{question.prompt}</p>
+		</div>
+	);
+}
+
 function InterviewPage() {
 	const navigate = useNavigate();
-
-	const [question, setQuestion] = useState();
 
 	useEffect(() => {
 		const check = async () => {
@@ -28,6 +35,21 @@ function InterviewPage() {
 	const [code, setCode] = useState("");
 	const [results, setResults] = useState([]);
 
+	const fetchResultsLocally = () => {
+		if (localStorage.getItem("testResults") !== null) {
+			const testResults = JSON.parse(localStorage.getItem("testResults"));
+			setResults(testResults);
+		} else {
+			setResults([]);
+		}
+	};
+
+	useEffect(() => {
+		fetchResultsLocally();
+	}, []);
+
+	//console.log(localStorage.getItem("question"));
+
 	const highlightCode = useCallback(
 		(code) => Prism.highlight(code, Prism.languages.python, "python"),
 		[]
@@ -35,7 +57,6 @@ function InterviewPage() {
 
 	const handleTestCode = async () => {
 		const res = await testCode(code);
-		//console.log(res);
 		if (!res || res.error) {
 			setResults([
 				{
@@ -45,6 +66,7 @@ function InterviewPage() {
 				},
 			]);
 		} else {
+			localStorage.setItem("testResults", JSON.stringify(res));
 			setResults(res);
 		}
 	};
@@ -54,7 +76,9 @@ function InterviewPage() {
 	return (
 		<div className={style.interviewPageContainer}>
 			<div className={style.leftHandSide}>
-				<div className={style.promptContainer}></div>
+				<PromptContainer
+					question={JSON.parse(localStorage.getItem("question"))}
+				/>
 				<CodeResultsComponent results={results} />
 			</div>
 			<div className={style.editorBackground}>

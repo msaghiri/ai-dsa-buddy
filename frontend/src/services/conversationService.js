@@ -38,4 +38,5 @@ export function storeMessage(message) {
 
 export function clearStorage() {
 	localStorage.removeItem("conversation");
+	localStorage.removeItem("question");
 }
