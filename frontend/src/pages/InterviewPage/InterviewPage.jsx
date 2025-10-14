@@ -10,6 +10,7 @@ import style from "./InterviewPage.module.css";
 import { interviewSessionExists } from "../../services/interviewService.js";
 import { testCode } from "../../services/codeService.js";
 import { useNavigate } from "react-router-dom";
+import useLocalStorage from "../../hooks/useLocalStorage.js";
 
 function PromptContainer({ question }) {
 	return (
@@ -32,10 +33,10 @@ function InterviewPage() {
 		check();
 	}, [navigate]);
 
-	const [code, setCode] = useState("");
-	const [results, setResults] = useState([]);
+	const [code, setCode] = useLocalStorage("interviewCode", "");
+	const [results, setResults] = useLocalStorage("testResults", []);
 
-	const fetchResultsLocally = () => {
+	/*const fetchResultsLocally = () => {
 		if (localStorage.getItem("testResults") !== null) {
 			const testResults = JSON.parse(localStorage.getItem("testResults"));
 			setResults(testResults);
@@ -46,7 +47,7 @@ function InterviewPage() {
 
 	useEffect(() => {
 		fetchResultsLocally();
-	}, []);
+	}, []);*/
 
 	//console.log(localStorage.getItem("question"));
 
@@ -66,7 +67,7 @@ function InterviewPage() {
 				},
 			]);
 		} else {
-			localStorage.setItem("testResults", JSON.stringify(res));
+			//localStorage.setItem("testResults", JSON.stringify(res));
 			setResults(res);
 		}
 	};
