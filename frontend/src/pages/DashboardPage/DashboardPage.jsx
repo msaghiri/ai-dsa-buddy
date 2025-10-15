@@ -2,12 +2,61 @@ import { getUserInformation } from "../../services/authService.js";
 import {
 	getAllQuestions,
 	getQuestionByName,
-} from "../../services/questionsService.js"; // Assuming this is the path
+} from "../../services/questionsService.js";
 import { initiateInterview } from "../../services/interviewService.js";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { clearStorage } from "../../services/conversationService.js";
 import styles from "./DashboardPage.module.css";
+
+const LoadingState = () => (
+	<div className={styles.centeredContainer}>Loading...</div>
+);
+
+const ErrorState = ({ message }) => (
+	<div className={styles.centeredContainer}>{message}</div>
+);
+
+const DashboardHeader = ({ displayName }) => (
+	<>
+		<h1 className={styles.header}>Welcome, {displayName}</h1>
+		<p className={styles.subHeader}>
+			Select a question to begin your practice session.
+		</p>
+	</>
+);
+
+const QuestionCard = ({ question, onStart }) => (
+	<button
+		className={styles.secondaryButton}
+		onClick={() => onStart(question.name)}
+	>
+		<div className={styles.questionNameContainer}>
+			<p className={styles.questionName}>{question.displayName}</p>
+		</div>
+		<div className={styles.tagsBox}>
+			{question.tags.map((tag, index) => (
+				<p key={index} className={styles.tag}>
+					{tag}
+				</p>
+			))}
+		</div>
+	</button>
+);
+
+const QuestionGrid = ({ questions, onStartInterview }) => (
+	<div className={styles.contentBox}>
+		<div className={styles.buttonGrid}>
+			{questions.map((question) => (
+				<QuestionCard
+					key={question.id}
+					question={question}
+					onStart={onStartInterview}
+				/>
+			))}
+		</div>
+	</div>
+);
 
 function DashboardPage() {
 	const [displayName, setDisplayName] = useState("");
@@ -23,7 +72,6 @@ function DashboardPage() {
 					getUserInformation(),
 					getAllQuestions(),
 				]);
-
 				setDisplayName(userInfo.displayName);
 				setQuestions(questionData);
 			} catch (err) {
@@ -34,73 +82,30 @@ function DashboardPage() {
 				setIsLoading(false);
 			}
 		};
-
 		loadDashboardData();
 	}, [navigate]);
 
-	const handleStartInterview = (name) => {
-		const start = async () => {
-			const res = await initiateInterview(name);
-			if (res) {
-				clearStorage();
-				const question = await getQuestionByName(name);
-				if (!question) console.log("Failed, no question");
-				localStorage.setItem("question", JSON.stringify(question));
-				navigate("/interview");
-			}
-		};
-		start();
+	const handleStartInterview = async (name) => {
+		const res = await initiateInterview(name);
+		if (res) {
+			clearStorage();
+			const question = await getQuestionByName(name);
+			if (!question) console.log("Failed, no question");
+			localStorage.setItem("question", JSON.stringify(question));
+			navigate("/interview");
+		}
 	};
 
-	if (isLoading) {
-		return <div className={styles.centeredContainer}>Loading...</div>;
-	}
-	if (error) {
-		return <div className={styles.centeredContainer}>{error}</div>;
-	}
+	if (isLoading) return <LoadingState />;
+	if (error) return <ErrorState message={error} />;
 
 	return (
 		<div className={styles.centeredContainer}>
-			<h1 className={styles.header}>Welcome, {displayName}</h1>
-			<p className={styles.subHeader}>
-				Select a question to begin your practice session.
-			</p>
-			<div className={styles.contentBox}>
-				<div className={styles.buttonGrid}>
-					{questions.map((question) => (
-						<button
-							key={question.id}
-							className={styles.secondaryButton}
-							onClick={() => handleStartInterview(question.name)}
-						>
-							<div className={styles.questionNameContainer}>
-								<p className={styles.questionName}>{question.displayName}</p>
-							</div>
-
-							<div className={styles.tagsBox}>
-								{question.tags.map((tag) => (
-									<p className={styles.tag}>{tag}</p>
-								))}
-							</div>
-						</button>
-					))}
-
-					<button
-						key={20}
-						className={styles.secondaryButton}
-						onClick={() => handleStartInterview("")}
-					>
-						<div className={styles.questionNameContainer}>
-							<p className={styles.questionName}>Sample question</p>
-						</div>
-
-						<div className={styles.tagsBox}>
-							<p className={styles.tag}>Tag 1</p>
-							<p className={styles.tag}>Tag 2</p>
-						</div>
-					</button>
-				</div>
-			</div>
+			<DashboardHeader displayName={displayName} />
+			<QuestionGrid
+				questions={questions}
+				onStartInterview={handleStartInterview}
+			/>
 		</div>
 	);
 }

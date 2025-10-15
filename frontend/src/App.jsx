@@ -13,7 +13,7 @@ import { useState, useEffect } from "react";
 export function App() {
 	return (
 		<div className="app">
-			<NavigationBar />
+			{/*<NavigationBar />*/}
 			<Routes>
 				{/*<Route path="/" element={<Navigate to="/interview" />} />*/}
 				<Route path="/" element={<DashboardPage />} />
