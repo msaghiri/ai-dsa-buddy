@@ -9,6 +9,15 @@
 	box-sizing: border-box;
 }
 
+.top {
+	width: 100%;
+	max-width: 1400px;
+	height: fit-content;
+	display: flex;
+	justify-content: flex-end;
+	padding-bottom: 5px;
+}
+
 .tabButtons {
 	display: none;
 	gap: 10px;
@@ -42,7 +51,7 @@
 .contentWrapper {
 	display: none;
 	width: 100%;
-	max-width: 900px;
+	height: fit-content;
 }
 
 .desktopLayout {
@@ -191,6 +200,7 @@
 
 	.rightHandSide {
 		width: 100%;
+		gap: 10px;
 	}
 
 	.actionButtonContainer {

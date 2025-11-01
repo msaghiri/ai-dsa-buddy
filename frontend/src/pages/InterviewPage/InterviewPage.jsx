@@ -2,6 +2,7 @@ import { useState, useCallback, useRef, useEffect } from "react";
 
 import ConversationComponent from "../../components/ConversationComponent/ConversationComponent.jsx";
 import CodeResultsComponent from "../../components/CodeResultsComponent/CodeResultsComponent.jsx";
+import EndInterviewButton from "../../components/EndInterviewButton/EndInterviewButton.jsx";
 import Editor from "react-simple-code-editor";
 import Prism from "prismjs";
 import "prismjs/components/prism-python";
@@ -154,6 +155,9 @@ function InterviewPage() {
 
 	return (
 		<div className={style.interviewPageContainer}>
+			<div className={style.top}>
+				<EndInterviewButton />
+			</div>
 			{/* Mobile/Tab Layout Components */}
 			<TabNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
 
