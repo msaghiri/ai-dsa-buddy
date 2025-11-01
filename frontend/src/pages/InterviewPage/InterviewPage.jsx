@@ -23,6 +23,7 @@ function PromptContainer({ question }) {
 
 function InterviewPage() {
 	const navigate = useNavigate();
+	const [activeTab, setActiveTab] = useState(0);
 
 	useEffect(() => {
 		const check = async () => {
@@ -35,21 +36,6 @@ function InterviewPage() {
 
 	const [code, setCode] = useLocalStorage("interviewCode", "");
 	const [results, setResults] = useLocalStorage("testResults", []);
-
-	/*const fetchResultsLocally = () => {
-		if (localStorage.getItem("testResults") !== null) {
-			const testResults = JSON.parse(localStorage.getItem("testResults"));
-			setResults(testResults);
-		} else {
-			setResults([]);
-		}
-	};
-
-	useEffect(() => {
-		fetchResultsLocally();
-	}, []);*/
-
-	//console.log(localStorage.getItem("question"));
 
 	const highlightCode = useCallback(
 		(code) => Prism.highlight(code, Prism.languages.python, "python"),
@@ -67,7 +53,6 @@ function InterviewPage() {
 				},
 			]);
 		} else {
-			//localStorage.setItem("testResults", JSON.stringify(res));
 			setResults(res);
 		}
 	};
@@ -76,45 +61,130 @@ function InterviewPage() {
 
 	return (
 		<div className={style.interviewPageContainer}>
-			<div className={style.leftHandSide}>
-				<PromptContainer
-					question={JSON.parse(localStorage.getItem("question"))}
-				/>
-				<CodeResultsComponent results={results} />
+			<div className={style.tabButtons}>
+				<button
+					className={`${style.tabButton} ${
+						activeTab === 0 ? style.activeTab : ""
+					}`}
+					onClick={() => setActiveTab(0)}
+				>
+					Problem
+				</button>
+				<button
+					className={`${style.tabButton} ${
+						activeTab === 1 ? style.activeTab : ""
+					}`}
+					onClick={() => setActiveTab(1)}
+				>
+					Editor
+				</button>
+				<button
+					className={`${style.tabButton} ${
+						activeTab === 2 ? style.activeTab : ""
+					}`}
+					onClick={() => setActiveTab(2)}
+				>
+					Chat
+				</button>
 			</div>
-			<div className={style.editorBackground}>
-				<Editor
-					value={code}
-					onValueChange={(code) => setCode(code)}
-					highlight={highlightCode}
-					style={{
-						fontFamily: '"Fira code", "Fira Mono", monospace',
-						fontSize: 14,
-						width: "100%",
-						minHeight: "100%",
-						whiteSpace: "pre",
-						background: "transparent",
-					}}
-					padding={30}
-					tabSize={4}
-					textareaClassName={style.codeEditorTextArea}
-				/>
+
+			<div className={style.contentWrapper}>
+				{activeTab === 0 && (
+					<div className={style.leftHandSide}>
+						<PromptContainer
+							question={JSON.parse(localStorage.getItem("question"))}
+						/>
+						<CodeResultsComponent results={results} />
+					</div>
+				)}
+
+				{activeTab === 1 && (
+					<div className={style.editorBackground}>
+						<Editor
+							value={code}
+							onValueChange={(code) => setCode(code)}
+							highlight={highlightCode}
+							style={{
+								fontFamily: '"Fira code", "Fira Mono", monospace',
+								fontSize: 14,
+								width: "100%",
+								minHeight: "100%",
+								whiteSpace: "pre",
+								background: "transparent",
+							}}
+							padding={30}
+							tabSize={4}
+							textareaClassName={style.codeEditorTextArea}
+						/>
+					</div>
+				)}
+
+				{activeTab === 2 && (
+					<div className={style.rightHandSide}>
+						<ConversationComponent
+							className={style.conversationComponent}
+							ref={conversationRef}
+						/>
+						<div className={style.actionButtonContainer}>
+							<button
+								className={style.actionButton}
+								onClick={() =>
+									conversationRef.current?.handleSendCodeToModel(code)
+								}
+							>
+								Review Code
+							</button>
+							<button className={style.actionButton} onClick={handleTestCode}>
+								Run tests
+							</button>
+						</div>
+					</div>
+				)}
 			</div>
-			<div className={style.rightHandSide}>
-				<ConversationComponent
-					className={style.conversationComponent}
-					ref={conversationRef}
-				/>
-				<div className={style.actionButtonContainer}>
-					<button
-						className={style.actionButton}
-						onClick={() => conversationRef.current?.handleSendCodeToModel(code)}
-					>
-						Review Code
-					</button>
-					<button className={style.actionButton} onClick={handleTestCode}>
-						Run tests
-					</button>
+
+			<div className={style.desktopLayout}>
+				<div className={style.leftHandSide}>
+					<PromptContainer
+						question={JSON.parse(localStorage.getItem("question"))}
+					/>
+					<CodeResultsComponent results={results} />
+				</div>
+				<div className={style.editorBackground}>
+					<Editor
+						value={code}
+						onValueChange={(code) => setCode(code)}
+						highlight={highlightCode}
+						style={{
+							fontFamily: '"Fira code", "Fira Mono", monospace',
+							fontSize: 14,
+							width: "100%",
+							minHeight: "100%",
+							whiteSpace: "pre",
+							background: "transparent",
+						}}
+						padding={30}
+						tabSize={4}
+						textareaClassName={style.codeEditorTextArea}
+					/>
+				</div>
+				<div className={style.rightHandSide}>
+					<ConversationComponent
+						className={style.conversationComponent}
+						ref={conversationRef}
+					/>
+					<div className={style.actionButtonContainer}>
+						<button
+							className={style.actionButton}
+							onClick={() =>
+								conversationRef.current?.handleSendCodeToModel(code)
+							}
+						>
+							Review Code
+						</button>
+						<button className={style.actionButton} onClick={handleTestCode}>
+							Run tests
+						</button>
+					</div>
 				</div>
 			</div>
 		</div>

@@ -1,11 +1,62 @@
 .interviewPageContainer {
-	min-width: 100%;
-	width: fit-content;
-	height: 100vh;
+	width: 100%;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 20px;
+	box-sizing: border-box;
+}
+
+.tabButtons {
+	display: none;
+	gap: 10px;
+	margin-bottom: 20px;
+	width: 100%;
+	max-width: 600px;
+}
+
+.tabButton {
+	flex: 1;
+	padding: 12px 20px;
+	background: rgba(104, 197, 240, 0.08);
+	border: 1px solid rgba(255, 255, 255, 0.15);
+	color: white;
+	border-radius: 25px;
+	font-size: 14px;
+	font-weight: 500;
+	cursor: pointer;
+	transition: all 0.3s ease;
+}
+
+.tabButton:hover {
+	background-color: rgba(160, 200, 238, 0.178);
+}
+
+.activeTab {
+	background: rgba(104, 197, 240, 0.2);
+	border-color: rgba(255, 255, 255, 0.3);
+}
+
+.contentWrapper {
+	display: none;
+	width: 100%;
+	max-width: 900px;
+}
+
+.desktopLayout {
 	display: flex;
 	gap: 50px;
 	align-items: center;
 	justify-content: center;
+}
+
+.leftHandSide {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	flex-shrink: 0;
 }
 
 .codeEditorTextArea {
@@ -18,28 +69,21 @@
 .editorBackground {
 	width: 700px;
 	min-width: 600px;
+	max-width: 700px;
 	height: 700px;
 	background: radial-gradient(circle at 0% 0%, #e07bff0a 0%, transparent 60%),
 		radial-gradient(circle at 70% 40%, #5d83ff15 0%, transparent 50%),
 		radial-gradient(circle at 50% 100%, #ff00000e 0%, transparent 50%),
 		rgba(0, 0, 0, 0.267);
-	border-radius: 0px;
-	border: solid;
-	border-width: 1px;
-	border-color: rgba(255, 255, 255, 0.295);
-	overflow: hidden;
-
+	border-radius: 40px;
+	border: solid 1px rgba(255, 255, 255, 0.295);
+	overflow: auto;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-
-	overflow: scroll;
-
-	border-radius: 40px;
-
-	padding-top: 20px;
-	padding-left: 20px;
-	padding-right: 5px;
+	padding: 20px;
+	box-sizing: border-box;
+	flex-shrink: 1;
 }
 
 .rightHandSide {
@@ -48,6 +92,7 @@
 	align-items: center;
 	height: 700px;
 	gap: 20px;
+	flex-shrink: 0;
 }
 
 .actionButtonContainer {
@@ -83,37 +128,146 @@
 .promptContainer {
 	font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
 		Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-
 	width: fit-content;
 	min-width: 300px;
 	max-width: 300px;
 	height: 200px;
 	border-radius: 40px;
-
 	background: radial-gradient(circle at 0% 0%, #dd00ff13 0%, transparent 50%),
 		radial-gradient(circle at 40% 40%, #00a78628 0%, transparent 55%),
 		radial-gradient(circle at 100% 100%, #ff000013 0%, transparent 65%), #0f0f14;
-
-	border: solid rgba(255, 255, 255, 0.336) 1px;
-
+	border: solid 1px rgba(255, 255, 255, 0.336);
 	flex-shrink: 0;
-
-	padding-left: 20px;
-	padding-right: 20px;
-
-	margin-bottom: 50px;
-
+	padding: 20px;
 	display: flex;
 	flex-direction: column;
-
 	gap: 10px;
-
-	padding-top: 20px;
+	box-sizing: border-box;
 }
 
 .questionTitle {
 	font-size: 24px;
+	margin: 0;
 }
+
 .questionPrompt {
 	font-size: 16px;
+	margin: 0;
+	overflow-y: auto;
+}
+
+/* Mobile/Tablet - Show Tabs */
+@media (max-width: 1400px) {
+	.tabButtons {
+		display: flex;
+	}
+
+	.contentWrapper {
+		display: flex;
+		justify-content: center;
+		width: 900px;
+		max-width: 90vw;
+	}
+
+	.desktopLayout {
+		display: none;
+	}
+
+	.leftHandSide {
+		width: 100%;
+		align-items: center;
+	}
+
+	.promptContainer {
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+	}
+
+	.editorBackground {
+		width: 100%;
+		min-width: 0;
+	}
+
+	.rightHandSide {
+		width: 100%;
+	}
+
+	.actionButtonContainer {
+		height: auto;
+		padding: 20px 0;
+	}
+}
+
+@media (max-width: 1400px) {
+	.contentWrapper {
+		display: flex;
+		justify-content: center;
+		align-items: flex-start;
+		width: 900px;
+		max-width: 90vw;
+		min-height: 700px;
+	}
+	.actionButtonContainer {
+		width: 100%;
+		flex-direction: column;
+	}
+	.actionButton {
+		width: 60%;
+		max-width: 600px;
+	}
+}
+
+@media (max-width: 768px) {
+	.contentWrapper {
+		width: 100%;
+		max-width: 95vw;
+	}
+
+	.editorBackground {
+		height: 500px;
+		padding: 15px;
+	}
+
+	.actionButtonContainer {
+		flex-direction: column;
+		gap: 15px;
+	}
+
+	.actionButton {
+		width: 100%;
+	}
+}
+
+@media (max-width: 480px) {
+	.interviewPageContainer {
+		padding: 15px 10px;
+	}
+
+	.editorBackground {
+		height: 400px;
+	}
+
+	.promptContainer {
+		padding: 15px;
+		height: auto;
+		min-height: 150px;
+	}
+
+	.questionTitle {
+		font-size: 20px;
+	}
+
+	.questionPrompt {
+		font-size: 14px;
+	}
+
+	.actionButtonContainer {
+		width: 100%;
+	}
+
+	.actionButton {
+		width: 100%;
+		max-width: 480px;
+	}
 }
