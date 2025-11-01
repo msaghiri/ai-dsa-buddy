@@ -211,6 +211,7 @@
 	.actionButtonContainer {
 		width: 100%;
 		flex-direction: column;
+		gap: 10px;
 	}
 	.actionButton {
 		width: 60%;
@@ -231,7 +232,7 @@
 
 	.actionButtonContainer {
 		flex-direction: column;
-		gap: 15px;
+		gap: 10px;
 	}
 
 	.actionButton {
