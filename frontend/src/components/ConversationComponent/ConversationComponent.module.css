@@ -16,6 +16,7 @@
 
 @media (max-width: 1400px) {
 	.conversationPageContainer {
+		min-height: 550px;
 		height: 550px;
 	}
 }
