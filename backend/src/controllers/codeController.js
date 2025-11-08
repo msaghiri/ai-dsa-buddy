@@ -11,7 +11,7 @@ export async function sendCodeToModel(req, res) {
 	const code = req.body.code;
 	if (!code) return res.status(400).send("No code submitted");
 
-	const prompt = `The following code is the candidates progress so far in attempting to solve the problem. Concisely provide input in no more than 3 sentences. 
+	const prompt = `[SYSTEM INSTRUCTION] The following code is the candidates progress so far in attempting to solve the problem. Concisely provide input in no more than 3 sentences. 
         Do not give any hints that an average interviewer wouldn't. 
         Feel free to ask a guiding question or two or to 
         provide trivial advice. This is NOT necessarily the candidates final solution, so if it is generally a step in the right direction, please do acknowledge that.
