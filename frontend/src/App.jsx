@@ -2,6 +2,7 @@ import ProtectedRoutes from "./pages/ProtectedRoutes";
 import LoginPage from "./pages/LoginPage/LoginPage.jsx";
 import InterviewPage from "./pages/InterviewPage/InterviewPage.jsx";
 import DashboardPage from "./pages/DashboardPage/DashboardPage.jsx";
+import InterviewFeedbackPage from "./pages/InterviewFeedbackPage/InterviewFeedbackPage.jsx";
 
 import NavigationBar from "./components/NavigationBar/NavigationBar.jsx";
 
@@ -16,6 +17,7 @@ export function App() {
 			{/*<NavigationBar />*/}
 			<Routes>
 				{/*<Route path="/" element={<Navigate to="/interview" />} />*/}
+				<Route path="interview-feedback" element={<InterviewFeedbackPage />} />
 				<Route path="/" element={<DashboardPage />} />
 				<Route path="login" element={<LoginPage />} />
 				{<Route path="interview" element={<InterviewPage />} />}

@@ -11,7 +11,6 @@ function GoogleLoginButton() {
 		flow: "auth-code",
 		onSuccess: async (response) => {
 			const res = await authenticate(response.code);
-
 			if (res.success) {
 				navigate("/");
 			}
