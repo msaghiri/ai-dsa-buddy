@@ -30,7 +30,4 @@ router.get("/feedback", (req, res) => {
 	getInterviewFeedback(req, res);
 });
 
-//Unimportant for now
-router.post("/chat-history", (req, res) => {});
-
 export default router;

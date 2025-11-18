@@ -4,14 +4,17 @@ import ConversationComponent from "../../components/ConversationComponent/Conver
 import CodeResultsComponent from "../../components/CodeResultsComponent/CodeResultsComponent.jsx";
 import EndInterviewButton from "../../components/EndInterviewButton/EndInterviewButton.jsx";
 import Editor from "react-simple-code-editor";
-import Prism from "prismjs";
-import "prismjs/components/prism-python";
-import "prismjs/themes/prism-okaidia.css";
+//import Prism from "prismjs";
+//import "prismjs/components/prism-python";
+//import "prismjs/themes/prism-okaidia.css";
 import style from "./InterviewPage.module.css";
 import { interviewSessionExists } from "../../services/interviewService.js";
 import { testCode } from "../../services/codeService.js";
 import { useNavigate } from "react-router-dom";
 import useLocalStorage from "../../hooks/useLocalStorage.js";
+
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 // --- Re-usable Components ---
 
@@ -76,8 +79,9 @@ function EditorView({ code, setCode, highlightCode }) {
 					fontSize: 14,
 					width: "100%",
 					minHeight: "100%",
-					whiteSpace: "pre",
+					whiteSpace: "pre-wrap",
 					background: "transparent",
+					lineHeight: 1.6,
 				}}
 				padding={30}
 				tabSize={4}
@@ -124,10 +128,14 @@ function InterviewPage() {
 	const [code, setCode] = useLocalStorage("interviewCode", "");
 	const [results, setResults] = useLocalStorage("testResults", []);
 
-	const highlightCode = useCallback(
-		(code) => Prism.highlight(code, Prism.languages.python, "python"),
+	/*const highlightCode = useCallback(
+		(code) => code Prism.highlight(code, Prism.languages.python, "python"),
 		[]
 	);
+	*/
+
+	//for now since highlighting seems to be broken
+	const highlightCode = useCallback((code) => code, []);
 
 	const handleTestCode = async () => {
 		const res = await testCode(code);

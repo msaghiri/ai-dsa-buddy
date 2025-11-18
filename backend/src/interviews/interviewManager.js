@@ -211,6 +211,8 @@ export function destroyInterviewSession(userId) {
 		36000
 	);
 
+	console.log(feedbacks);
+
 	return { success: true, feedbackId };
 }
 

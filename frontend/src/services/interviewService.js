@@ -55,7 +55,34 @@ export async function endInterview() {
 		const data = await res.json();
 		if (!data.success) throw new Error("Failed to terminate conversation.");
 
-		return true;
+		return {
+			success: true,
+			feedbackId: data.feedbackId,
+		};
+	} catch (err) {
+		console.log(err);
+		return false;
+	}
+}
+
+export async function getInterviewFeedback(feedbackId) {
+	try {
+		const res = await fetch(
+			`${config.API_URL}/gemini/feedback/?feedbackId=${feedbackId}`,
+			{
+				method: "GET",
+				credentials: "include",
+				headers: JSON_HEADERS,
+			}
+		);
+
+		const data = await res.json();
+		if (!data.success) throw new Error("Failed to fetch feedback");
+
+		return {
+			success: true,
+			feedbackObject: data.feedbackObject,
+		};
 	} catch (err) {
 		console.log(err);
 		return false;
