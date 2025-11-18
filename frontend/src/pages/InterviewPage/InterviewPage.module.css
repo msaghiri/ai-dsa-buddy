@@ -68,11 +68,12 @@
 	flex-shrink: 0;
 }
 
-.codeEditorTextArea {
+.editorBackground .codeEditorTextArea {
 	outline: none;
 	border: none;
 	box-sizing: border-box;
 	line-height: 1.5;
+	font-size: 14px;
 }
 
 .editorBackground {
