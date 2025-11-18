@@ -3,6 +3,7 @@ import {
 	sendMessage,
 	destroyInterviewSession,
 	interviewSessionExists,
+	getInterviewFeedbackById,
 } from "../interviews/interviewManager.js";
 
 import { verifyAuth, decodeToken } from "../utils/authUtils.js";
@@ -66,16 +67,47 @@ export async function endInterview(req, res) {
 		if (!userInformation) throw new Error("Failed to verify user");
 
 		const result = destroyInterviewSession(userInformation.sub);
+
 		if (!result) throw new Error("Interview session does not exist.");
 
 		return res.status(200).json({
 			success: true,
 			msg: "Interview session successfully terminated",
+			feedbackId:
+				result.feedbackId || "Failed to generate feedback for this interview",
 		});
 	} catch (err) {
 		return res.status(400).json({
 			success: false,
 			msg: `Failed to terminate interview session, ${err.message}`,
+		});
+	}
+}
+
+export function getInterviewFeedback(req, res) {
+	const token = req.cookies.token;
+	if (!verifyAuth(token)) return res.sendStatus(401);
+
+	try {
+		const userInformation = decodeToken(token);
+		if (!userInformation) throw new Error("Failed to verify user");
+
+		const feedbackId = req.query.feedbackId;
+		if (!feedbackId) throw new Error("Invalid feedbackId");
+
+		const feedbackObject = getInterviewFeedbackById(feedbackId);
+		if (!feedbackObject) throw new Error("Failed to fetch interview feedback.");
+		if (feedbackObject.userId !== userInformation.sub)
+			throw new Error("User is not authorized to access this data.");
+
+		return res.status(200).json({
+			success: true,
+			feedbackObject,
+		});
+	} catch (err) {
+		return res.status(400).json({
+			success: false,
+			msg: `Failed to fetch interview feedback, ${err.message}`,
 		});
 	}
 }

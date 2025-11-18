@@ -4,6 +4,8 @@ import { Type } from "@google/genai";
 import config from "../config.js";
 import questions from "../questions/questions.js";
 
+import { v4 as uuidv4 } from "uuid";
+
 const ai = new GoogleGenAI({});
 
 /*
@@ -20,6 +22,8 @@ const ai = new GoogleGenAI({});
 
 const interviewSessions = {};
 
+const feedbacks = {};
+
 const createInterviewSession = (
 	question,
 	chat,
@@ -34,6 +38,13 @@ const createInterviewSession = (
 	solved,
 	attempted,
 	lastAttempt,
+});
+
+const createFeedbackObject = (userId, feedback, timeCreated, expiresIn) => ({
+	userId,
+	feedback,
+	timeCreated,
+	expiresIn,
 });
 
 const feedbackSchema = {
@@ -90,6 +101,10 @@ export function interviewSessionExists(userId) {
 
 export function getInterviewSession(userId) {
 	return interviewSessions[userId];
+}
+
+export function getInterviewFeedbackById(feedbackId) {
+	return feedbacks[feedbackId];
 }
 
 export function initiateInterviewSession(userId, question) {
@@ -184,11 +199,19 @@ export async function getInterviewFeedback(userId) {
 export function destroyInterviewSession(userId) {
 	if (!interviewSessionExists(userId)) return false;
 
-	getInterviewFeedback(userId);
+	const interviewFeedback = getInterviewFeedback(userId);
 
 	delete interviewSessions[userId];
 
-	return true;
+	const feedbackId = uuidv4();
+	feedbacks[feedbackId] = createFeedbackObject(
+		userId,
+		interviewFeedback,
+		Date.now(),
+		36000
+	);
+
+	return { success: true, feedbackId };
 }
 
 console.log("Connected to Gemini");

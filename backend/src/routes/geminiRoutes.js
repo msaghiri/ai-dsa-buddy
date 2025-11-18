@@ -5,6 +5,7 @@ import {
 	send,
 	endInterview,
 	interviewExists,
+	getInterviewFeedback,
 } from "../controllers/interviewController.js";
 
 const router = Router();
@@ -23,6 +24,10 @@ router.post("/end-convo", (req, res) => {
 
 router.get("/convo-exists", (req, res) => {
 	interviewExists(req, res);
+});
+
+router.get("/feedback", (req, res) => {
+	getInterviewFeedback(req, res);
 });
 
 //Unimportant for now
