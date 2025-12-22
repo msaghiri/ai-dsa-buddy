@@ -17,7 +17,10 @@ export function App() {
 			{/*<NavigationBar />*/}
 			<Routes>
 				{/*<Route path="/" element={<Navigate to="/interview" />} />*/}
-				<Route path="interview-feedback" element={<InterviewFeedbackPage />} />
+				<Route
+					path="interview-feedback/:feedbackId"
+					element={<InterviewFeedbackPage />}
+				/>
 				<Route path="/" element={<DashboardPage />} />
 				<Route path="login" element={<LoginPage />} />
 				{<Route path="interview" element={<InterviewPage />} />}

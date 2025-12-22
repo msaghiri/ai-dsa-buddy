@@ -196,10 +196,10 @@ export async function getInterviewFeedback(userId) {
 	return JSON.parse(response.text);
 }
 
-export function destroyInterviewSession(userId) {
+export async function destroyInterviewSession(userId) {
 	if (!interviewSessionExists(userId)) return false;
 
-	const interviewFeedback = getInterviewFeedback(userId);
+	const interviewFeedback = await getInterviewFeedback(userId);
 
 	delete interviewSessions[userId];
 

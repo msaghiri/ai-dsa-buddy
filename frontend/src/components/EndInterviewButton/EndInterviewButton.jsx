@@ -36,9 +36,11 @@ function EndInterviewButton() {
 	const navigate = useNavigate();
 
 	const handleEndInterview = async () => {
-		const success = await endInterview();
+		const res = await endInterview();
+		const success = res.success;
+		const feedbackId = res.feedbackId;
 		if (success) {
-			navigate("/");
+			navigate(`/interview-feedback/${feedbackId}`);
 		}
 	};
 

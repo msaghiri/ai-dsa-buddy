@@ -66,7 +66,7 @@ export async function endInterview(req, res) {
 		const userInformation = decodeToken(token);
 		if (!userInformation) throw new Error("Failed to verify user");
 
-		const result = destroyInterviewSession(userInformation.sub);
+		const result = await destroyInterviewSession(userInformation.sub);
 
 		if (!result) throw new Error("Interview session does not exist.");
 
