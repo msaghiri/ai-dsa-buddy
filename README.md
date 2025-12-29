@@ -9,17 +9,17 @@ This project is a fully featured DSA platform that interviews you. It features a
 - **Code Evaluation:** When you press "Run tests", a custom written Python grader will immediately run your solution function safely via the Piston API and you will immediately know which test cases you have passed/failed.
 - **Google OAuth:** Secure sign-in with your Google account.
 
-img
-
 ## Tech Stack
 
 - Backend: The backend is written in Express.js. Grading scripts for questions are written in Python.
 - Frontend: The frontend is written purely using React.js and CSS.
 - Database: State information for interview sessions are stored in-memory for now. User data and (soon) other information from previous interview sessions are stored in a MongoDB database.
 
-### Demo: (Coming soon)
+### Demo: 
 
-##
+![Alt text](image_source)
+![Alt text](image_source)
+![Alt text](image_source)
 
 ### Prerequisites for Setup
 
